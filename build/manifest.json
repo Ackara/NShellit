@@ -1,0 +1,22 @@
+﻿{
+    "version":  {
+                    "Major":  0,
+                    "Minor":  0,
+                    "Patch":  1,
+                    "Suffix":  ""
+                },
+    "productName":  "Poshsielaye",
+    "description":  "A useful description.",
+    "owner":  "Ackara",
+    "authors":  "Ackara",
+    "tags":  "command-line parser powershell console",
+    "copyright":  "All Rights Reserved.",
+    "projectUrl":  "https://github.com/Ackara/Poshsielaye",
+    "iconUri":  "https://raw.githubusercontent.com/Ackara/Poshsielaye/master/assets/icon.png",
+    "releaseNotes":  "https://github.com/Ackara/Poshsielaye/blob/master/releaseNotes.txt",
+    "licenseUri":  "https://github.com/Ackara/Poshsielaye/blob/master/license.txt",
+    "branchSuffixMap":  {
+                            "master":  "",
+                            "*":  "rc"
+                        }
+}

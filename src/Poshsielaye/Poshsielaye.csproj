@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Acklann.Poshsielaye</AssemblyName>
+    <RootNamespace>Acklann.Poshsielaye</RootNamespace>
+    <Product>Poshsielaye</Product>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Description>A useful description.</Description>
+    <Authors>Ackara</Authors>
+    <Company>Ackara</Company>
+    <PackageTags>command-line parser powershell console</PackageTags>
+    <Copyright>All Rights Reserved.</Copyright>
+    <PackageIconUrl>https://raw.githubusercontent.com/Ackara/Poshsielaye/master/assets/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Ackara/Poshsielaye</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Ackara/Poshsielaye/blob/master/license.txt</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/Ackara/Poshsielaye/blob/master/releaseNotes.txt</PackageReleaseNotes>
+  </PropertyGroup>
+</Project>
