@@ -7,8 +7,8 @@
     <ProjectGuid>{E01B17C1-3471-4068-A77C-0E49E09B4C7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Acklann.Poshsielaye</RootNamespace>
-    <AssemblyName>Acklann.Poshsielaye.MSTest</AssemblyName>
+    <RootNamespace>Acklann.Poshley</RootNamespace>
+    <AssemblyName>Acklann.Poshley.MSTest</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -82,9 +82,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Poshsielaye\Poshsielaye.csproj">
+    <ProjectReference Include="..\..\src\Poshsielaye\Poshley.csproj">
       <Project>{c88d43dd-2f99-40ff-881d-2207fb751829}</Project>
-      <Name>Poshsielaye</Name>
+      <Name>Poshley</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

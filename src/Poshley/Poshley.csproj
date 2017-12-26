@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Acklann.Poshsielaye</AssemblyName>
-    <RootNamespace>Acklann.Poshsielaye</RootNamespace>
+    <AssemblyName>Acklann.Poshley</AssemblyName>
+    <RootNamespace>Acklann.Poshley</RootNamespace>
     <Product>Poshsielaye</Product>
     <AssemblyVersion>0.1.0</AssemblyVersion>
     <PackageVersion>0.1.0</PackageVersion>

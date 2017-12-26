@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Acklann.Project
+namespace Acklann.Poshley
 {
 	public static partial class TestDataDirectory
 	{
