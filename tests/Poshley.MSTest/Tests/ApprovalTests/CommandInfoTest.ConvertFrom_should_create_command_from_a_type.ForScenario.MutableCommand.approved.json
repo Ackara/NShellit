@@ -1,0 +1,135 @@
+﻿{
+    
+  "verb":  "mutable",
+    
+  "args":  [
+        
+    {
+            
+      "position":  3,
+            
+      "name":  "b, id",
+            
+      "description":  "A integer value.",
+            
+      "type":  "Int32",
+            
+      "require":  true
+    
+        },
+        
+    {
+            
+      "position":  5,
+            
+      "name":  "c",
+            
+      "description":  "A char value.",
+            
+      "type":  "Char"
+    
+        },
+        
+    {
+            
+      "position":  0,
+            
+      "name":  "d, text",
+            
+      "description":  "A string value",
+            
+      "type":  "String"
+    
+        },
+        
+    {
+            
+      "position":  2,
+            
+      "name":  "e, date",
+            
+      "description":  "A date value.",
+            
+      "type":  "DateTime"
+    
+        },
+        
+    {
+            
+      "position":  4,
+            
+      "name":  "f",
+            
+      "description":  "An enum value",
+            
+      "type":  "FakeEnum",
+            
+      "default":  6
+    
+        },
+        
+    {
+            
+      "position":  6,
+            
+      "name":  "g",
+            
+      "description":  "A float value.",
+            
+      "type":  "Single"
+    
+        },
+        
+    {
+            
+      "position":  7,
+            
+      "name":  "h",
+            
+      "description":  "A collection.",
+            
+      "type":  "String[]"
+    
+        },
+        
+    {
+            
+      "position":  1,
+            
+      "name":  "a",
+            
+      "description":  "A boolean value",
+            
+      "type":  "Boolean"
+    
+        }
+  
+    ],
+    
+  "examples":  [
+        
+    {
+            
+      "command":  "fake.exe -id 100",
+            
+      "description":  "Does something cool."
+    
+        },
+        
+    {
+            
+      "command":  "fake.exe -id 125 -b",
+            
+      "description":  "A good explanation."
+    
+        }
+  
+    ],
+    
+  "relatedLinks":  [
+        
+    "https://www.poshly.org/documentation/command/fake"
+  
+    ]
+
+}

@@ -1,0 +1,22 @@
+﻿args: req
+
+ERROR: The parameter ([position 0]) is required; you must supply a value.
+Int32 Id = (default: )
+
+=========================
+args: mary one -o
+
+ERROR: 'one' should be of type Int32
+String Name = mary
+Int32 Age = (default: 18)
+Boolean Avaiable = True
+
+=========================
+args: mary 18 -o -na
+
+ERROR: The term na is not a valid argument.
+String Name = mary
+Int32 Age = (default: 18)
+Boolean Avaiable = True
+
+=========================

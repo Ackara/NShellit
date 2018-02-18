@@ -1,0 +1,9 @@
+﻿Bad Option: -force
+
+USAGE: commit [-m <string>]
+
+OPTIONS
+  Name                 Description
+  ˉˉˉˉ                 ˉˉˉˉˉˉˉˉˉˉˉ
+  -m, -msg, -message   (Required) This is a message.
+

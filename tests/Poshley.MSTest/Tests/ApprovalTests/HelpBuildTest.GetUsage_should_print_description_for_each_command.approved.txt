@@ -1,0 +1,11 @@
+﻿Poshly.MSTest v1.0.0.0
+Copyright ©  2017
+
+USAGE:  <command> [options]
+
+COMMANDS
+ Name            Description
+ ˉˉˉˉ            ˉˉˉˉˉˉˉˉˉˉˉ
+ get-childitem   This is the add description.
+ version         This is the version description.
+ help            This is the help description

@@ -1,0 +1,89 @@
+﻿{
+    
+  "verb":  "",
+    
+  "args":  [
+        
+    {
+            
+      "position":  0,
+            
+      "name":  "",
+            
+      "type":  "Int32"
+    
+        },
+        
+    {
+            
+      "position":  1,
+            
+      "name":  "",
+            
+      "type":  "Char"
+    
+        },
+        
+    {
+            
+      "position":  2,
+            
+      "name":  "",
+            
+      "type":  "String"
+    
+        },
+        
+    {
+            
+      "position":  3,
+            
+      "name":  "",
+            
+      "type":  "DateTime"
+    
+        },
+        
+    {
+            
+      "position":  4,
+            
+      "name":  "",
+            
+      "type":  "FakeEnum"
+    
+        },
+        
+    {
+            
+      "position":  5,
+            
+      "name":  "",
+            
+      "type":  "Single"
+    
+        },
+        
+    {
+            
+      "position":  6,
+            
+      "name":  "",
+            
+      "type":  "String[]"
+    
+        },
+        
+    {
+            
+      "position":  7,
+            
+      "name":  "",
+            
+      "type":  "Boolean"
+    
+        }
+  
+    ]
+
+}

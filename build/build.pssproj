@@ -36,10 +36,14 @@
     <Compile Include="..\build.ps1">
       <Link>build.ps1</Link>
     </Compile>
+    <Compile Include="nuget\msbuild.targets" />
     <Compile Include="tasks.psake.ps1">
       <SubType>
       </SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="nuget\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

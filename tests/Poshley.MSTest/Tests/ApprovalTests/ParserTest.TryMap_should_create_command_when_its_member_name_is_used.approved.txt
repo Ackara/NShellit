@@ -1,0 +1,14 @@
+﻿args: foo -NumericValue 321
+
+PASSED
+Int32 NumericValue = 321
+String TextValue = (default: gazy)
+
+=========================
+args: foo -TextValue abc -NumericValue 123
+
+PASSED
+Int32 NumericValue = 123
+String TextValue = abc
+
+=========================

@@ -1,0 +1,25 @@
+﻿{
+    
+  "Switch":  true,
+    
+  "NumericValue":  123,
+    
+  "CharValue":  "c",
+    
+  "TextValue":  "a string",
+    
+  "DateValue":  "0001-01-01T00:00:00",
+    
+  "EnumValue":  2,
+    
+  "PrecisionValue":  1.23,
+    
+  "Collection":  [
+        
+    "abc",
+        
+    "xyz"
+  
+    ]
+
+}

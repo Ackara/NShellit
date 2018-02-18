@@ -1,0 +1,71 @@
+﻿{
+    
+  "verb":  "immutable",
+    
+  "args":  [
+        
+    {
+            
+      "position":  0,
+            
+      "name":  "",
+            
+      "type":  "Int32"
+    
+        },
+        
+    {
+            
+      "position":  1,
+            
+      "name":  "",
+            
+      "type":  "String"
+    
+        },
+        
+    {
+            
+      "position":  2,
+            
+      "name":  "",
+            
+      "type":  "DateTime"
+    
+        },
+        
+    {
+            
+      "position":  3,
+            
+      "name":  "",
+            
+      "type":  "FakeEnum"
+    
+        },
+        
+    {
+            
+      "position":  4,
+            
+      "name":  "",
+            
+      "type":  "Int32[]"
+    
+        }
+  
+    ],
+    
+  "examples":  [
+        
+    {
+            
+      "command":  "fake.exe john 117",
+            
+      "description":  ""
+    
+        }
+  
+    ]
+
+}

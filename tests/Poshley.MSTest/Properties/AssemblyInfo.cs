@@ -3,11 +3,11 @@ using ApprovalTests.Reporters;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Poshsielaye.MSTest")]
+[assembly: AssemblyTitle("Poshly.MSTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Poshsielaye.MSTest")]
+[assembly: AssemblyProduct("Poshly.MSTest")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

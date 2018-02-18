@@ -1,0 +1,58 @@
+﻿args: foo
+
+PASSED
+Char Gender = (default: f)
+DateTime Dob = (default: 2/2/2002 12:00:00 AM)
+
+=========================
+args: bar south
+
+PASSED
+FakeEnum Direction = South
+
+=========================
+args: bar -d NoRth
+
+PASSED
+FakeEnum Direction = North
+
+=========================
+args: f1 -f file.xml
+
+PASSED
+String[] Input = f1
+String Output = file.xml
+Boolean Force = True
+
+=========================
+args: -f:off f2 out.xml
+
+PASSED
+String[] Input = f2
+String Output = out.xml
+Boolean Force = False
+
+=========================
+args: f1,f2,f3 out.xml 0
+
+PASSED
+String[] Input = f1,f2,f3
+String Output = out.xml
+Boolean Force = False
+
+=========================
+args: foo -d 2015-05-15 -g f
+
+PASSED
+Char Gender = f
+DateTime Dob = 5/15/2015 12:00:00 AM
+
+=========================
+args: -f -destination file.txt -i f1
+
+PASSED
+String[] Input = f1
+String Output = file.txt
+Boolean Force = True
+
+=========================

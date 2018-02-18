@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Poshley.IntegrationTest": {
+      "commandName": "Project",
+      "commandLineArgs": "immutable -i a,b,c"
+    }
+  }
+}

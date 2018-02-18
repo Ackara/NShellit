@@ -1,0 +1,24 @@
+﻿Poshsielaye v0.1.0.0
+All Rights Reserved.
+
+USAGE: commit <string> [-m <string>] [-a <switch>] [-d <male|female>]
+
+OPTIONS
+  Name                 Description
+  ˉˉˉˉ                 ˉˉˉˉˉˉˉˉˉˉˉ
+  [position 0]         (Default: 'john') This is the author name.
+  -m, -msg, -message   (Required) This is a message.
+  -a, -append          This is a boolean.
+  -d                   The commit date
+
+EXAMPLE
+  commit -m foobar
+  This is an example.
+
+EXAMPLE
+  commit -a
+  This is another example.
+
+RELATED LINKS
+  http://github.com/Ackara
+  http://codeplex.com/Ackara
