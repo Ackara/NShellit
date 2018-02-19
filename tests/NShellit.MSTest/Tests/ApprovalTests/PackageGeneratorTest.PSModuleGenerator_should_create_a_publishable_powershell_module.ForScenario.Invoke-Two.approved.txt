@@ -1,0 +1,25 @@
+﻿<#
+.SYNOPSIS
+This is a synopsis.
+
+.PARAMETER Id
+An id value.
+
+.PARAMETER Contact
+A phone number
+#>
+
+function Invoke-Two(
+[Parameter(Mandatory)][Alias()][String]$Id,
+[Parameter()][Alias('tel')][String]$Contact)
+{
+    
+    $name0 = ''; $value0 = '';
+    if ($Id) { $name0 = '-Id'; $value0 = $Id.ToString(); }
+
+    $name1 = ''; $value1 = '';
+    if ($Contact) { $name1 = '-Contact'; $value1 = $Contact.ToString(); }
+
+    $dll = "$PSScriptRoot\bin\Acklann.NShellit.MSTest.dll";
+    return (&dotnet $dll two $name0 $value0 $name1 $value1);
+}

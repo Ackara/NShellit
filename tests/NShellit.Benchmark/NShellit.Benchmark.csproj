@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Acklann.NShellit.Benchmark</AssemblyName>
+    <RootNamespace>Acklann.NShellit</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="benchmarkdotnet" Version="0.10.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NShellit\NShellit.csproj" />
+  </ItemGroup>
+</Project>

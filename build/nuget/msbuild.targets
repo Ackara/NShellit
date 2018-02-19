@@ -38,7 +38,7 @@
     <Warning Condition="!Exists('$(NShellitTargetAssemblyFile)')"
              Text="$(ThisTargetFriendlyName): Could not find '$(NShellitTargetAssemblyFile)'." />
 
-    <Message Text="$(ThisTargetFriendlyName): Generating packages for $(MSBuildThisProjectName)." />
+    <Message Text="$(ThisTargetFriendlyName): Generating packages for $(MSBuildProjectName)." />
 
     <Exec Condition="Exists('$(NShellitTargetAssemblyFile)')" ContinueOnError="True"
           Command="dotnet &quot;$(NShellitTargetAssemblyFile)&quot; CA65CB33-397F-4F5A-851B-B2B0C8B11B94 &quot;$(NShellitTargetAssemblyFile)&quot; $(NShellitPackageIdentifier)" />

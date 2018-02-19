@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Product>NShellit</Product>
+    <ProductName>NShellit</ProductName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Acklann.NShellit</AssemblyName>
+    <RootNamespace>Acklann.NShellit</RootNamespace>
+    <AssemblyVersion>0.0.5</AssemblyVersion>
+    <PackageVersion>0.0.5</PackageVersion>
+    <Description>A useful description.</Description>
+    <Authors>Ackara &amp; Contributors</Authors>
+    <Company>Acklann</Company>
+    <PackageTags>command-line parser powershell console</PackageTags>
+    <Copyright>MIT License</Copyright>
+    <PackageIconUrl>https://raw.githubusercontent.com/Ackara/NShellit/master/art/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Ackara/NShellit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Ackara/NShellit/blob/master/license.txt</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/Ackara/Poshsielaye/blob/master/releaseNotes.txt</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Acklann.Poshley.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="Extensions\Extensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Extensions.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Extensions\Extensions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Extensions.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\build\nuget\msbuild.targets">
+      <PackagePath>build\$(AssemblyName).targets</PackagePath>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="..\..\README.md">
+      <PackagePath>
+      </PackagePath>
+      <Visible>false</Visible>
+    </Content>
+  </ItemGroup>
+</Project>

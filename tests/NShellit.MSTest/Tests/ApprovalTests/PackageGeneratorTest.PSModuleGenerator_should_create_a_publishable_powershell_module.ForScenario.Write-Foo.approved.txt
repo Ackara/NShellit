@@ -1,0 +1,60 @@
+﻿<#
+.SYNOPSIS
+This is a good command.
+
+.PARAMETER NumericValue
+An id value.
+
+.PARAMETER PrecisionValue
+An number value.
+
+.PARAMETER CharValue
+A char value.
+
+.PARAMETER Collection
+An array
+
+.PARAMETER DateValue
+A date value.
+
+.PARAMETER EnumValue
+A fake value.
+
+.EXAMPLE
+Write-Foo
+This does something.
+
+.LINK
+Write-Host
+#>
+
+function Write-Foo(
+[Parameter(Mandatory)][Alias()][Int32]$NumericValue,
+[Parameter()][Alias('point')][Single]$PrecisionValue,
+[Parameter()][Alias('c')][Char]$CharValue,
+[Parameter()][Alias('l', 'list')][String[]]$Collection,
+[Parameter()][Alias('d', 'date')][DateTime]$DateValue,
+[Parameter()][Alias('e')][ValidatePattern('(?i)(^North$|^East$|^South$|^West$|\d+)')][string]$EnumValue)
+{
+    
+    $name0 = ''; $value0 = '';
+    if ($NumericValue) { $name0 = '-NumericValue'; $value0 = $NumericValue.ToString(); }
+
+    $name1 = ''; $value1 = '';
+    if ($PrecisionValue) { $name1 = '-PrecisionValue'; $value1 = $PrecisionValue.ToString(); }
+
+    $name2 = ''; $value2 = '';
+    if ($CharValue) { $name2 = '-CharValue'; $value2 = $CharValue.ToString(); }
+
+    $name3 = ''; $value3 = '';
+    if ($Collection) { $name3 = '-Collection'; $value3 = [string]::Join(',', $Collection); }
+
+    $name4 = ''; $value4 = '';
+    if ($DateValue) { $name4 = '-DateValue'; $value4 = $DateValue.ToString(); }
+
+    $name5 = ''; $value5 = '';
+    if ($EnumValue) { $name5 = '-EnumValue'; $value5 = $EnumValue.ToString(); }
+
+    $dll = "$PSScriptRoot\bin\Acklann.NShellit.MSTest.dll";
+    return (&dotnet $dll one $name0 $value0 $name1 $value1 $name2 $value2 $name3 $value3 $name4 $value4 $name5 $value5);
+}
