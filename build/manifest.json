@@ -2,10 +2,10 @@
     "version":  {
                     "Major":  0,
                     "Minor":  0,
-                    "Patch":  1,
+                    "Patch":  2,
                     "Suffix":  ""
                 },
-    "productName":  "Poshsielaye",
+    "productName":  "NShellet",
     "description":  "A useful description.",
     "owner":  "Ackara",
     "authors":  "Ackara",
@@ -16,7 +16,7 @@
     "releaseNotes":  "https://github.com/Ackara/Poshsielaye/blob/master/releaseNotes.txt",
     "licenseUri":  "https://github.com/Ackara/Poshsielaye/blob/master/license.txt",
     "branchSuffixMap":  {
-                            "master":  "",
-                            "*":  "rc"
+                            "*":  "rc",
+                            "master":  ""
                         }
 }

@@ -3,13 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Acklann.Poshley</AssemblyName>
     <RootNamespace>Acklann.Poshley</RootNamespace>
-    <Product>Poshsielaye</Product>
-    <AssemblyVersion>0.1.0</AssemblyVersion>
-    <PackageVersion>0.1.0$(VersionSuffix)</PackageVersion>
+    <Product>NShellet</Product>
+    <AssemblyVersion>0.0.2</AssemblyVersion>
+    <PackageVersion>0.0.2</PackageVersion>
     <Description>A useful description.</Description>
     <Authors>Ackara</Authors>
     <Company>Ackara</Company>
-    <PackageTags>command-line parser powershell console shell wrapper</PackageTags>
+    <PackageTags>command-line parser powershell console</PackageTags>
     <Copyright>All Rights Reserved.</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/Ackara/Poshsielaye/master/assets/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Ackara/Poshsielaye</PackageProjectUrl>
