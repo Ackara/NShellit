@@ -9,6 +9,7 @@ Properties {
 
 	# Args
 	$SkipCompilation = $false;
+	$CommitChanges = $false;
 	$Configuration = "";
 	$Secrets = @{ };
 	$Major = $false;
@@ -52,7 +53,7 @@ Task "Import-Dependencies" -alias "restore" -description "This task imports all 
 
 Task "Increment-VersionNumber" -alias "version" -description "This task increments the project's version numbers" `
 -depends @("restore") -action {
-	$result = Get-BuildboxManifest $ManifestJson | Update-ProjectManifests "$RootDir\src" -Break:$Major -Feature:$Minor -Patch -Tag -Commit;
+	$result = Get-BuildboxManifest $ManifestJson | Update-ProjectManifests "$RootDir\src" -Break:$Major -Feature:$Minor -Patch -Tag -Commit:$CommitChanges;
 
 	Write-Host "   * Incremented version number from '$($result.OldVersion)' to '$($result.Version)'.";
 	foreach ($file in $result.ModifiedFiles)
@@ -101,10 +102,10 @@ Task "Generate-Packages" -alias "pack" -description "This task generates the app
 	if (Test-Path $ArtifactsDir) { Remove-Item $ArtifactsDir -Recurse -Force; }
 	New-Item $ArtifactsDir -ItemType Directory | Out-Null;
 	
+	$version = Get-Version;
 	$proj = Get-Item "$RootDir\src\*\*.csproj";
 	Write-LineBreak "dotnet: pack '$($proj.BaseName)'";
-	$suffix = Get-BuildboxManifest $ManifestJson | Get-VersionSuffix $Branch;
-	Exec { &dotnet pack $proj.FullName --output "$ArtifactsDir\nuget" --configuration $Configuration /p:VersionSuffix=$suffix; }
+	Exec { &dotnet pack $proj.FullName --output "$ArtifactsDir\nuget" --configuration $Configuration /p:PackageVersion=$version; }
 }
 
 Task "Publish-Application" -alias "publish" -description "This task publish all app packages to their respective host." `
@@ -116,8 +117,8 @@ Task "Publish-NuGetPackages" -alias "pub-nuget" -description "This task publish 
 
 	foreach ($nupkg in Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg")
 	{
-		Write-Warning "NOT Implemented";
 		Write-Host "   * published '$($nupkg.Name)' to nuget.org";
+		Write-Warning "NOT Implemented";
 	}
 }
 
@@ -128,6 +129,14 @@ Task "Publish-NuGetPackages" -alias "pub-nuget" -description "This task publish 
 function Get-Manifest()
 {
 	return Get-Content $ManifestJson | Out-String | ConvertFrom-Json;
+}
+
+function Get-Version()
+{
+	$manifest = Get-BuildboxManifest;
+	$suffix = $manifest | Get-VersionSuffix $Branch;
+	if (-not [string]::IsNullOrEmpty($suffix)) {  $suffix = "-$suffix"; }
+	return "$($manifest.Version.ToString())$suffix";
 }
 
 function Get-Secret([string]$key)

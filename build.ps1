@@ -17,6 +17,9 @@ Param(
 	[Alias("sc", "nobuild")]
 	[switch]$SkipCompilation,
 
+	[Alias('nc', 'nocommit')]
+	[switch]$DoNotCommitChanges,
+
 	[string]$TaskFile = "$PSScriptRoot\build\*psake*.ps1",
 	[switch]$Major,
 	[switch]$Minor,
@@ -55,6 +58,7 @@ else
 		"Minor"=$Minor.IsPresent;
 		"PoshModulesDir"=$psModulesDir;
 		"Configuration"=$Configuration;
+		"CommitChanges"=(-not $DoNotCommitChanges.IsPresent);
 		"SkipCompilation"=$SkipCompilation.IsPresent;
 	}
 	if (-not $psake.build_success) { exit 1; }

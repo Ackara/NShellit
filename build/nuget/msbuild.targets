@@ -2,48 +2,45 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ThisTargetFriendlyName>NShellet</ThisTargetFriendlyName>
-    <NShelletPackageIdentifier Condition="$(NShelletPackageIdentifier) == ''">1</NShelletPackageIdentifier>
-    <CanGeneratePackagesWithNShellet Condition ="$(TargetFramework.Contains('netcoreapp'))">True</CanGeneratePackagesWithNShellet>
-    <GeneratePackagesWithNShelletOnBuild Condition="$(GeneratePackagesWithNShelletOnBuild) == ''">True</GeneratePackagesWithNShelletOnBuild>
-    <OnlyGeneratePackagesWithNShelletInReleaseMode Condition="$(OnlyGeneratePackagesWithNShelletInReleaseMode) == ''">False</OnlyGeneratePackagesWithNShelletInReleaseMode>
+    <ThisTargetFriendlyName>NShellit</ThisTargetFriendlyName>
+    <NShellitPackageIdentifier Condition="$(NShellitPackageIdentifier) == ''">1</NShellitPackageIdentifier>
+    <CanGeneratePackagesWithNShellit Condition ="$(TargetFramework.Contains('netcoreapp'))">True</CanGeneratePackagesWithNShellit>
+    <GeneratePackagesWithNShellitOnBuild Condition="$(GeneratePackagesWithNShellitOnBuild) == ''">True</GeneratePackagesWithNShellitOnBuild>
+    <OnlyGeneratePackagesWithNShellitInReleaseMode Condition="$(OnlyGeneratePackagesWithNShellitInReleaseMode) == ''">False</OnlyGeneratePackagesWithNShellitInReleaseMode>
   </PropertyGroup>
 
   <Choose>
-    <When Condition="$(Configuration) != 'Release' And $(OnlyGeneratePackagesWithNShelletInReleaseMode)">
+    <When Condition="$(Configuration) != 'Release' And $(OnlyGeneratePackagesWithNShellitInReleaseMode)">
       <PropertyGroup>
-        <ShouldGeneratePackagesWithNShellet>False</ShouldGeneratePackagesWithNShellet>
+        <ShouldGeneratePackagesWithNShellit>False</ShouldGeneratePackagesWithNShellit>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
-        <ShouldGeneratePackagesWithNShellet>True</ShouldGeneratePackagesWithNShellet>
+        <ShouldGeneratePackagesWithNShellit>True</ShouldGeneratePackagesWithNShellit>
       </PropertyGroup>
     </Otherwise>
   </Choose>
 
   <Target Name="GenerateModuleAfterBuild" AfterTargets="Build">
-    <Message Condition="!$(CanGeneratePackagesWithNShellet)"
+    <Message Condition="!$(CanGeneratePackagesWithNShellit)"
              Text="$(ThisTargetFriendlyName): Can only generate packages for netcoreapp a project." />
 
-    <CallTarget Condition="$(GeneratePackagesWithNShelletOnBuild) And $(CanGeneratePackagesWithNShellet) And $(ShouldGeneratePackagesWithNShellet)"
-                Targets="GeneratePackagesWithNShellet" />
+    <CallTarget Condition="$(GeneratePackagesWithNShellitOnBuild) And $(CanGeneratePackagesWithNShellit) And $(ShouldGeneratePackagesWithNShellit)"
+                Targets="GeneratePackagesWithNShellit" />
   </Target>
 
-  <Target Name="GeneratePackagesWithNShellet">
+  <Target Name="GeneratePackagesWithNShellit">
     <PropertyGroup>
-      <NShelletTargetAssemblyFile>$(MSBuildProjectDirectory)\$(Outputpath)$(AssemblyName).dll</NShelletTargetAssemblyFile>
+      <NShellitTargetAssemblyFile>$(MSBuildProjectDirectory)\$(Outputpath)$(AssemblyName).dll</NShellitTargetAssemblyFile>
     </PropertyGroup>
 
-    <Warning Condition="!Exists('$(NShelletTargetAssemblyFile)')"
-             Text="$(ThisTargetFriendlyName): Could not find '$(NShelletTargetAssemblyFile)'." />
+    <Warning Condition="!Exists('$(NShellitTargetAssemblyFile)')"
+             Text="$(ThisTargetFriendlyName): Could not find '$(NShellitTargetAssemblyFile)'." />
 
-    <Exec Condition="Exists('$(NShelletTargetAssemblyFile)')" ContinueOnError="True"
-          Command="dotnet &quot;$(NShelletTargetAssemblyFile)&quot; CA65CB33-397F-4F5A-851B-B2B0C8B11B94 &quot;$(NShelletTargetAssemblyFile)&quot; $(NShelletPackageIdentifier)">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
+    <Message Text="$(ThisTargetFriendlyName): Generating packages for $(MSBuildThisProjectName)." />
 
-    <Message Condition="$(ErrorCode) == '0'"
-             Text="$(ThisTargetFriendlyName): Finished generating packages for $(MSBuildProjectName)." />
+    <Exec Condition="Exists('$(NShellitTargetAssemblyFile)')" ContinueOnError="True"
+          Command="dotnet &quot;$(NShellitTargetAssemblyFile)&quot; CA65CB33-397F-4F5A-851B-B2B0C8B11B94 &quot;$(NShellitTargetAssemblyFile)&quot; $(NShellitPackageIdentifier)" />
   </Target>
 </Project>
