@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Acklann.NShellit.Help
 {
+    /// <summary>
+    /// Provides methods and properties to display a help menu.
+    /// </summary>
+    /// <seealso cref="Acklann.NShellit.Help.IHelpBuilder" />
     public class EditableHelpBuilder : IHelpBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditableHelpBuilder"/> class.
+        /// </summary>
+        /// <param name="debugMode">if set to <c>true</c> the <see cref="Debug"/> member will be assigned a value.</param>
         public EditableHelpBuilder(bool debugMode = false)
         {
 #if DEBUG
@@ -16,16 +24,27 @@ namespace Acklann.NShellit.Help
             if (_debug) _content = new StringBuilder();
         }
 
+        /// <summary>
+        /// Gets the text printed to the console; only when debugging.
+        /// </summary>
+        /// <value>The debug.</value>
         public string Debug
         {
             get { return _content?.ToString(); }
         }
 
+        /// <summary>
+        /// Gets or sets the error message, if any.
+        /// </summary>
+        /// <value>The error.</value>
         public string Error
         {
             get; set;
         }
 
+        /// <summary>
+        /// Prints the header.
+        /// </summary>
         public virtual void PrintHeader()
         {
             if (string.IsNullOrEmpty(Error))
@@ -36,16 +55,28 @@ namespace Acklann.NShellit.Help
             }
         }
 
+        /// <summary>
+        /// Prints the version number.
+        /// </summary>
         public virtual void PrintVersion()
         {
             WriteLine(string.Format("{0} v{1}", AppInfo.Product, AppInfo.Version));
         }
 
+        /// <summary>
+        /// Prints the help menu.
+        /// </summary>
+        /// <param name="commandList">The command list.</param>
         public void PrintHelp(params CommandInfo[] commandList)
         {
             PrintHelp(Error, commandList);
         }
 
+        /// <summary>
+        /// Prints the help menu.
+        /// </summary>
+        /// <param name="error">The error message.</param>
+        /// <param name="commandList">The command list.</param>
         public void PrintHelp(string error, params CommandInfo[] commandList)
         {
             Error = error;
@@ -64,6 +95,9 @@ namespace Acklann.NShellit.Help
 
         /* ----- */
 
+        /// <summary>
+        /// Prints the error message.
+        /// </summary>
         protected virtual void PrintError()
         {
             if (!string.IsNullOrEmpty(Error))
@@ -73,6 +107,10 @@ namespace Acklann.NShellit.Help
             }
         }
 
+        /// <summary>
+        /// Prints the usage command(s) syntax.
+        /// </summary>
+        /// <param name="commandList">The command list.</param>
         protected virtual void PrintUsage(CommandInfo[] commandList)
         {
             Write("USAGE: ");
@@ -98,6 +136,10 @@ namespace Acklann.NShellit.Help
             WriteLine("");
         }
 
+        /// <summary>
+        /// Prints the command(s) options.
+        /// </summary>
+        /// <param name="commandList">The command list.</param>
         protected virtual void PrintOptions(CommandInfo[] commandList)
         {
             string column1 = "Name", column2 = "Description";
@@ -145,6 +187,10 @@ namespace Acklann.NShellit.Help
             string alias(Argument a) => (a.HasAlias ? string.Join(", ", a.Aliases.Select(n => $"-{n}").OrderBy(o => o.Length)) : $"[position {a.Position}]");
         }
 
+        /// <summary>
+        /// Prints the command examples.
+        /// </summary>
+        /// <param name="command">The command.</param>
         protected virtual void PrintExamples(CommandInfo command)
         {
             foreach (Example ex in command.Examples)
@@ -153,6 +199,10 @@ namespace Acklann.NShellit.Help
             }
         }
 
+        /// <summary>
+        /// Prints the command related links.
+        /// </summary>
+        /// <param name="command">The command.</param>
         protected virtual void PrintRelatedLinks(CommandInfo command)
         {
             if (command.RelatedLinks.Count > 0)
@@ -167,18 +217,34 @@ namespace Acklann.NShellit.Help
 
         /* ----- */
 
+        /// <summary>
+        /// Writes the specified content to the console.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="color">The color.</param>
         protected void Write(string content, ConsoleColor color = ConsoleColor.Gray)
         {
             if (_debug) _content.Append(content);
+
             Console.ForegroundColor = color;
             Console.Write(content);
         }
 
+        /// <summary>
+        /// Writes the specified content to the console.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="color">The color.</param>
         protected void WriteLine(string content, ConsoleColor color = ConsoleColor.Gray)
         {
             Write(string.Concat(content, Environment.NewLine), color);
         }
 
+        /// <summary>
+        /// Writes the specified content to the console.
+        /// </summary>
+        /// <param name="format">The string format.</param>
+        /// <param name="values">The values.</param>
         protected void WriteLine(string format, params object[] values)
         {
             Write(string.Format(string.Concat(format, Environment.NewLine), values));
@@ -186,12 +252,21 @@ namespace Acklann.NShellit.Help
 
         #region Format Strings
 
+        /// <summary>
+        /// The error format string
+        /// </summary>
         public static string ErrorFormatString = "{0}";
 
+        /// <summary>
+        /// The header format string
+        /// </summary>
         public static string HeaderFormatString =
 @"{0} v{1}
 {2}";
 
+        /// <summary>
+        /// The example format string
+        /// </summary>
         public static string ExampleFormatString =
 @"EXAMPLE
   {0}

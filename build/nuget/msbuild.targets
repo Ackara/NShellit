@@ -4,6 +4,7 @@
   <PropertyGroup>
     <ThisTargetFriendlyName>NShellit</ThisTargetFriendlyName>
     <NShellitPackageIdentifier Condition="$(NShellitPackageIdentifier) == ''">1</NShellitPackageIdentifier>
+    <NShellitTargetAssemblyFile>$(MSBuildProjectDirectory)\$(Outputpath)$(AssemblyName).dll</NShellitTargetAssemblyFile>
     <CanGeneratePackagesWithNShellit Condition ="$(TargetFramework.Contains('netcoreapp'))">True</CanGeneratePackagesWithNShellit>
     <GeneratePackagesWithNShellitOnBuild Condition="$(GeneratePackagesWithNShellitOnBuild) == ''">True</GeneratePackagesWithNShellitOnBuild>
     <OnlyGeneratePackagesWithNShellitInReleaseMode Condition="$(OnlyGeneratePackagesWithNShellitInReleaseMode) == ''">False</OnlyGeneratePackagesWithNShellitInReleaseMode>
@@ -32,7 +33,6 @@
 
   <Target Name="GeneratePackagesWithNShellit">
     <PropertyGroup>
-      <NShellitTargetAssemblyFile>$(MSBuildProjectDirectory)\$(Outputpath)$(AssemblyName).dll</NShellitTargetAssemblyFile>
     </PropertyGroup>
 
     <Warning Condition="!Exists('$(NShellitTargetAssemblyFile)')"

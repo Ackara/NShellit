@@ -3,7 +3,7 @@ using System;
 
 namespace Acklann.NShellit.Fakes
 {
-    [Command(Name, HelpText = "A good mutable command")]
+    [Command(Name, Summary = "A good mutable command")]
     [Example("fake.exe -id 100", "Does something cool.")]
     [Example("fake.exe -id 125 -b", "A good explanation.")]
     [RelatedLink("https://www.poshly.org/documentation/command/fake")]
@@ -16,7 +16,6 @@ namespace Acklann.NShellit.Fakes
         [Summary("A boolean value")]
         public bool Switch;
 
-        
         [Required, Parameter("b", Id, HelpText = "A integer value.", Position = 3)]
         [Summary("A integer value.")]
         public int NumericValue { get; set; }

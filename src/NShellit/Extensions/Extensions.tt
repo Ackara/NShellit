@@ -5,22 +5,22 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 <# 
-const int n = 8;
+const int n = 16;
 #>
 using System;
 
-namespace Acklann.Poshley.Extensions
+namespace Acklann.NShellit.Extensions
 {
 	public static partial class MapExtensions
 	{	
 		<# 
-		WriteMethods(n, "TResult", "The result of the selected command.",
+		WriteMethods(n, "TResult", "The result of the selected delegate/command.",
 		error: "Func<string, TResult> onParsingError",
 		parameter: "Func<T{0}, TResult> cb{0}",
 
 		arg: "(typeof(T{0}), (o) => cb{0}((T{0})o))",
 		methodCall: @"
-return Map(parser, args, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
 {{
 	{0}
 }});"
@@ -33,7 +33,7 @@ return Map(parser, args, onParsingError, new ValueTuple<Type, Func<object, TResu
 		parameter: "Action<T{0}> cb{0}",
 		arg: "(typeof(T{0}), (o) => cb{0}((T{0})o))",
 		methodCall: @"
-Map(parser, args, onParsingError, new ValueTuple<Type, Action<object>>[]
+Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
 {{
 	{0}
 }});
@@ -60,23 +60,23 @@ void WriteMethods(int n, string returnType, string returnTypeDoc, string error, 
 	for (int i = 1; i <= n; i++)
 	{
 		var generics = string.Join(", ", iterator(i).Select(x=> $"T{x}").Concat(new string[1] { delegateReturnType })).Trim(',', ' ');
-		var genericsDoc = string.Join("\r\n", iterator(i).Select(x=> $"/// <typeparam name=\"T{x}\">The type of command to add to the collection.</typeparam>")).Trim();
+		var genericsDoc = string.Join("\r\n", iterator(i).Select(x=> $"/// <typeparam name=\"T{x}\">A command type.</typeparam>")).Trim();
 
 		var param = string.Join(", ", iterator(i).Select(x=> string.Format(parameter, x)));
-		var paramDoc = string.Join("\r\n", iterator(i).Select(x=> $"/// <param name=\"cb{x}\">The callback method to invoke when <typeparamref name=\"T{x}\"/> is selected.</param>")).Trim();
+		var paramDoc = string.Join("\r\n", iterator(i).Select(x=> $"/// <param name=\"cb{x}\">The delegate to invoke when command of type <typeparamref name=\"T{x}\"/> is found.</param>")).Trim();
 
 		var args = string.Join(",\r\n\t", iterator(i).Select(x=> string.Format(arg, x)));
 
-		WriteLine("/// <summary>blah blah</summary>");
+		WriteLine("/// <summary>Maps the specified <paramref name=\"arguments\"/> to one of the specified delegates.</summary>");
 		WriteLine(genericsDoc);
 		if (!string.IsNullOrEmpty(delegateReturnType)) WriteLine($"/// <typeparam name=\"{returnType}\">The type of object to return.</typeparam>");
 		WriteLine("/// <param name=\"parser\">The parser.</param>");
-		WriteLine("/// <param name=\"args\">The user argument array.</param>");
+		WriteLine("/// <param name=\"arguments\">The argument array.</param>");
 		WriteLine(paramDoc);
-		if (!string.IsNullOrEmpty(error)) WriteLine($"/// <param name=\"onParsingError\">The method to invoke when the user passes invalid arguments.</param>");
+		if (!string.IsNullOrEmpty(error)) WriteLine($"/// <param name=\"onParsingError\">The delegate to invoke when a parsing error occurs.</param>");
 		if (!string.IsNullOrEmpty(delegateReturnType)) WriteLine($"/// <returns>{returnTypeDoc}</returns>");
 
-		Write($"public static {returnType} Map<{generics}>(this Parser parser, string[] args, {param}{error}".Trim(' ', ','));
+		Write($"public static {returnType} Map<{generics}>(this Parser parser, string[] arguments, {param}{error}".Trim(' ', ','));
 		WriteLine(")");
 		WriteLine("{");
 		PushIndent("\t");

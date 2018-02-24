@@ -1,21 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Acklann.NShellit</RootNamespace>
+    <AssemblyName>Acklann.NShellit</AssemblyName>
+    <AssemblyVersion>0.0.5</AssemblyVersion>
+    
+    
+    <Title>NShellit</Title>
     <Product>NShellit</Product>
     <ProductName>NShellit</ProductName>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Acklann.NShellit</AssemblyName>
-    <RootNamespace>Acklann.NShellit</RootNamespace>
-    <AssemblyVersion>0.0.5</AssemblyVersion>
     <PackageVersion>0.0.5</PackageVersion>
     <Description>A useful description.</Description>
     <Authors>Ackara &amp; Contributors</Authors>
     <Company>Acklann</Company>
-    <PackageTags>command-line parser powershell console</PackageTags>
     <Copyright>MIT License</Copyright>
-    <PackageIconUrl>https://raw.githubusercontent.com/Ackara/NShellit/master/art/icon.png</PackageIconUrl>
+    <PackageTags>command-line parser powershell console</PackageTags>
     <PackageProjectUrl>https://github.com/Ackara/NShellit</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Ackara/NShellit/master/art/icon.png</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/Ackara/NShellit/blob/master/license.txt</PackageLicenseUrl>
-    <PackageReleaseNotes>https://github.com/Ackara/Poshsielaye/blob/master/releaseNotes.txt</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Ackara/NShellit/blob/master/releaseNotes.txt</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -1,6 +1,6 @@
 ﻿namespace Acklann.NShellit
 {
-    public struct ParserSettings
+    internal struct ParserSettings
     {
         public bool EnableHelpCommand;
 

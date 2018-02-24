@@ -20,7 +20,7 @@ namespace Acklann.NShellit.Tests
         {
             var sut = new PSModuleGenerator();
             RunPackageTest(sut, filesToExamine: () => (from f in Directory.EnumerateFiles(sut.PackageDirectory, "*", SearchOption.AllDirectories)
-                                                       where Path.GetExtension(f) == ".ps1" || Path.GetExtension(f) == ".psd1"
+                                                       where Path.GetExtension(f) == ".ps1" /*|| Path.GetExtension(f) == ".psd1"*/
                                                        select f));
         }
 
@@ -35,7 +35,7 @@ namespace Acklann.NShellit.Tests
 
         private static IEnumerable<CommandInfo> GetCommandList()
         {
-            var one = new CommandInfo<NonDecoratedCommand>("one") { ShellName = "Write-Foo" };
+            var one = new CommandInfo<NonDecoratedCommand>("one") { Cmdlet = "Write-Foo" };
             one.SetDescription("This is a good command.")
                 .WithParameter(x => x.NumericValue)
                     .SetDescription("An id value.")
@@ -63,7 +63,8 @@ namespace Acklann.NShellit.Tests
 
             one.AddLinks("Write-Host");
             one.AddExample("Write-Foo", "This does something.");
-
+            one.AddExample("Write-Foo", "This does something.", true);
+            
             var two = new CommandInfo("two");
             two.SetDescription("This is a synopsis.")
                 .WithParameter<string>("Id")

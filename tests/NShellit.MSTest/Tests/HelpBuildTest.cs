@@ -17,7 +17,7 @@ namespace Acklann.NShellit.Tests
             var c2 = new CommandInfo("version") { Description = "This is the version description." };
             var c3 = new CommandInfo("help") { Description = "This is the help description" };
 
-            var sut = new EditableHelpBuilder();
+            var sut = new EditableHelpBuilder(true);
             EditableHelpBuilder.HeaderFormatString = nameof(HelpBuildTest);
 
             // Act
@@ -54,7 +54,7 @@ namespace Acklann.NShellit.Tests
             command.AddLinks("http://github.com/Ackara");
             command.AddLinks("http://codeplex.com/Ackara");
 
-            var sut = new EditableHelpBuilder();
+            var sut = new EditableHelpBuilder(true);
             EditableHelpBuilder.HeaderFormatString = "{2}";
 
             // Act
@@ -68,7 +68,7 @@ namespace Acklann.NShellit.Tests
         public void PrintHelp_should_show_error()
         {
             // Arrange
-            var sut = new EditableHelpBuilder { Error = "Bad Option: -force" };
+            var sut = new EditableHelpBuilder(true) { Error = "Bad Option: -force" };
 
             var command = new CommandInfo("commit");
             command.WithParameter<string>("Message")

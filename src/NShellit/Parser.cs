@@ -6,28 +6,51 @@ using System.Linq;
 
 namespace Acklann.NShellit
 {
+    /// <summary>
+    /// Provides methods for converting command-line arguments to an object.
+    /// </summary>
     public class Parser
     {
-        public Parser() : this(ParserSettings.GetDefault(), new EditableHelpBuilder())
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parser"/> class.
+        /// </summary>
+        public Parser() : this(ParserOptions.None, new EditableHelpBuilder())
         {
         }
 
-        public Parser(ParserSettings settings) : this(settings, new EditableHelpBuilder())
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parser"/> class.
+        /// </summary>
+        /// <param name="options">The settings used to create the object.</param>
+        public Parser(ParserOptions options) : this(options, new EditableHelpBuilder())
         {
         }
 
-        public Parser(ParserSettings settings, IHelpBuilder helpBuilder)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parser" /> class.
+        /// </summary>
+        /// <param name="options">The settings used to create the object.</param>
+        /// <param name="helpBuilder">The object used to build the help menu.</param>
+        /// <exception cref="ArgumentNullException"><see cref="IHelpBuilder"/> is null.</exception>
+        public Parser(ParserOptions options, IHelpBuilder helpBuilder)
         {
-            _settings = settings;
-            _helpBuilder = helpBuilder;
+            _helpBuilder = helpBuilder ?? throw new ArgumentNullException(nameof(helpBuilder));
             _commandList = new Dictionary<string, CommandInfo>();
+            _options = options;
 
             // Appending internal commands
-            if (settings.EnableHelpCommand) _commandList.Add(HelpCommand.Id, new HelpCommand());
-            if (settings.EnableVersionCommand) _commandList.Add(VersionCommand.Id, new VersionCommand());
-            if (settings.EnablePackageCommand) _commandList.Add(PackageCommand.Id, new PackageCommand());
+            if (!options.HasFlag(ParserOptions.ExcludeHelpCommand)) _commandList.Add(HelpCommand.Id, new HelpCommand());
+            if (!options.HasFlag(ParserOptions.ExcludeVersionCommand)) _commandList.Add(VersionCommand.Id, new VersionCommand());
+            if (!options.HasFlag(ParserOptions.ExcludePackageCommand)) _commandList.Add(PackageCommand.Id, new PackageCommand());
         }
 
+        /// <summary>
+        /// Tries the convert the given string value to the specified base type.
+        /// </summary>
+        /// <typeparam name="TResult">The type to convert the value to.</typeparam>
+        /// <param name="value">The string value.</param>
+        /// <param name="result">The result.</param>
+        /// <returns><c>true</c> if value was converted successfully, <c>false</c> otherwise.</returns>
         public static bool TryConvert<TResult>(string value, out TResult result)
         {
             bool success = TryConvert(value, typeof(TResult), out object obj);
@@ -35,6 +58,13 @@ namespace Acklann.NShellit
             return success;
         }
 
+        /// <summary>
+        /// Tries the convert the given string value to the specified base type.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        /// <param name="conversionType">The type to convert value to.</param>
+        /// <param name="result">The result.</param>
+        /// <returns><c>true</c> if value was converted successfully, <c>false</c> otherwise.</returns>
         public static bool TryConvert(string value, Type conversionType, out object result)
         {
             result = null;
@@ -81,11 +111,18 @@ namespace Acklann.NShellit
                 catch { return false; }
         }
 
+        /// <summary>
+        /// Tries to map the specified argument array to a command within this instance's command-list. To build the command-list see <see cref="Add(CommandInfo[])"/>.
+        /// </summary>
+        /// <param name="args">The argument array.</param>
+        /// <param name="command">The mapped/selected command.</param>
+        /// <param name="error">The reason as to why this method returns <c>false</c>.</param>
+        /// <returns><c>true</c> if a command was found, <c>false</c> otherwise.</returns>
         public bool TryMap(string[] args, out CommandInfo command, out string error)
         {
             if (TryFindCommand(ref args, out command, out error))
             {
-                /// todo: explain implementation.
+                /* TODO: explain implementation. */
 
                 var parameterList = new LinkedList<Argument>(command);
                 LinkedList<Token> userArgs = Tokenize(args);
@@ -122,23 +159,23 @@ namespace Acklann.NShellit
             return string.IsNullOrEmpty(error);
         }
 
+        /// <summary>
+        /// Adds a <see cref="CommandInfo" /> to this instance list of available commands.
+        /// </summary>
+        /// <param name="commandList">The command list.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="commandList"/> is null.</exception>
         public void Add(params CommandInfo[] commandList)
         {
+            if (commandList == null) throw new ArgumentNullException(nameof(commandList));
+
             foreach (CommandInfo command in commandList)
-            {
-                _commandList.Add(command.Name.ToLowerInvariant(), command);
-            }
+                if (command != null)
+                {
+                    _commandList.Add(command.Name.ToLowerInvariant(), command);
+                }
         }
 
         /* --- HELPER METHODS --- */
-
-        public void ShowHelpMenu(string command = null, string error = "")
-        {
-            command = command?.ToLowerInvariant();
-            if (command == null) _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
-            else if (_commandList.ContainsKey(command)) _helpBuilder.PrintHelp(error, _commandList[command]);
-            else _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
-        }
 
         private LinkedList<Token> Tokenize(string[] args)
         {
@@ -194,8 +231,8 @@ namespace Acklann.NShellit
         {
             error = string.Empty;
             bool matchFound = true;
+            string verb = (args?.Length > 0 ? args[0].ToLowerInvariant() : string.Empty);
 
-            string verb = (args.Length > 0 ? args[0].ToLowerInvariant() : string.Empty);
             if (_commandList.ContainsKey(verb) && !string.IsNullOrEmpty(verb))
             {
                 args[0] = string.Empty;
@@ -284,9 +321,17 @@ namespace Acklann.NShellit
             }
         }
 
+        private void ShowHelpMenu(string command = null, string error = "")
+        {
+            command = command?.ToLowerInvariant();
+            if (command == null) _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
+            else if (_commandList.ContainsKey(command)) _helpBuilder.PrintHelp(error, _commandList[command]);
+            else _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
+        }
+
         #region Non-Public Fields
 
-        private readonly ParserSettings _settings;
+        private readonly ParserOptions _options;
         private readonly IHelpBuilder _helpBuilder;
         private readonly IDictionary<string, CommandInfo> _commandList;
 

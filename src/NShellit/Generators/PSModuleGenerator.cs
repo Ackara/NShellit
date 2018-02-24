@@ -7,21 +7,42 @@ using System.Text;
 
 namespace Acklann.NShellit.Generators
 {
+    /// <summary>
+    /// Provides methods for creating a powershell module.
+    /// </summary>
+    /// <seealso cref="Acklann.NShellit.Generators.IShellWrapper" />
     public class PSModuleGenerator : IShellWrapper
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PSModuleGenerator"/> class.
+        /// </summary>
         public PSModuleGenerator()
         {
             _content = new StringBuilder();
             _packageDirectory = Path.Combine(Path.GetTempPath(), nameof(NShellit), "powershell");
         }
 
+        /// <summary>
+        /// Gets the output directory.
+        /// </summary>
+        /// <value>The package directory.</value>
         public string PackageDirectory
         {
             get { return _packageDirectory; }
         }
 
+        /// <summary>
+        /// Gets the kind of package.
+        /// </summary>
+        /// <value>The kind.</value>
         public ShellKind Kind => ShellKind.Powershell;
 
+        /// <summary>
+        /// Generates the powershell module from cli executable.
+        /// </summary>
+        /// <param name="commandList">The command list.</param>
+        /// <param name="executable">The executable.</param>
+        /// <exception cref="FileNotFoundException"></exception>
         public void GeneratePackage(IEnumerable<CommandInfo> commandList, string executable)
         {
             if (!File.Exists(executable)) throw new FileNotFoundException($"Could not file at '{executable}'.");
@@ -38,13 +59,14 @@ namespace Acklann.NShellit.Generators
 
         private void DeleteAllFileButTheModuleManifest()
         {
-            /// NOTES:
-            /// I am going through the trouble of deleting everything but the manifest because
-            /// I don't want the manifest GUID to change everytime I rebuild the package.
-            /// Perhaps its better/faster to just delete the entire folder especially when
-            /// invoking MSBuild clean will delete anyway. However I'll keep it mainly so my
-            /// approval tests can pass. Also will powershell gallery except the same GUID after
-            /// each update; something to think check out.
+            /* NOTES:
+            * I am going through the trouble of deleting everything but the manifest because
+            * I don't want the manifest GUID to change every time I rebuild the package.
+            * Perhaps its better/faster to just delete the entire folder especially when
+            * invoking MSBuild clean will delete anyway. However I'll keep it mainly so my
+            * approval tests can pass. Also will powershell gallery except the same GUID after
+            * each update; something to think check out.
+            */
 
             if (Directory.Exists(_packageDirectory))
             {
@@ -90,7 +112,7 @@ namespace Acklann.NShellit.Generators
             var cmdlets = new LinkedList<string>();
             foreach (CommandInfo command in commandList)
             {
-                cmdlets.AddLast(CmdletNameOf(command));
+                cmdlets.AddLast(GetCmdlet(command));
                 WriteScript(executable, command);
             }
 
@@ -119,7 +141,7 @@ namespace Acklann.NShellit.Generators
 
         private void WriteScript(string executable, CommandInfo command)
         {
-            string name = CmdletNameOf(command);
+            string name = GetCmdlet(command);
             var script = string.Format(@"<#
 .SYNOPSIS
 {3}{4}{5}{6}
@@ -233,13 +255,14 @@ function {0}({2})
             {
                 _content.Clear();
                 foreach (Example ex in command.Examples)
-                {
-                    _content.AppendFormat(@"
+                    if (ex.ForCmdlet)
+                    {
+                        _content.AppendFormat(@"
 
 .EXAMPLE
 {0}
 {1}", ex.Command, ex.Description);
-                }
+                    }
                 return _content.ToString();
             }
             else return string.Empty;
@@ -269,7 +292,7 @@ function {0}({2})
         private StringBuilder _content;
         private string _packageDirectory;
 
-        private string CmdletNameOf(CommandInfo c) => string.IsNullOrEmpty(c.ShellName) ? $"Invoke-{System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(c.Name)}" : c.ShellName;
+        private string GetCmdlet(CommandInfo c) => string.IsNullOrEmpty(c.Cmdlet) ? $"Invoke-{System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(c.Name)}" : c.Cmdlet;
 
         #endregion Private Fields
     }

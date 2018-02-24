@@ -25,7 +25,7 @@ Task "deploy" -alias "push" -depends @("restore", "version", "compile", "test", 
 Task "Import-Dependencies" -alias "restore" -description "This task imports all dependencies." `
 -action {
 	#  Importing all required powershell modules.
-	foreach ($moduleId in @("Buildbox"))
+	foreach ($moduleId in @("Buildbox", "VSSetup"))
 	{
 		$modulePath = "$PoshModulesDir\$moduleId\*\*.psd1";
 		if (-not (Test-Path $modulePath))
@@ -74,17 +74,18 @@ Task "Run-Tests" -alias "test" -description "This task invoke all tests within t
 	try
 	{
 		# Running all MSTest tests.
-		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\bin\$Configuration" -Recurse -Filter "*$(Split-Path $RootDir -Leaf)*test*.dll"))
+		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\bin\$Configuration\*$(Split-Path $RootDir -Leaf)*test*.dll"))
 		{
-			Write-LineBreak "dotnet: vstest";
+			Write-LineBreak "dotnet: vstest ('$($testFile.BaseName)')";
 			Exec { &dotnet vstest $testFile.FullName; }
+			Write-Host $testFile.FullName;
 		}
 
 		# Running all Pester tests.
 		$testsFailed = 0;
 		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\" -Recurse -Filter "*tests.ps1"))
 		{
-			Write-LineBreak "pester";
+			Write-LineBreak "pester ($($testFile.BaseName))";
 			$results = Invoke-Pester -Script $testFile.FullName -PassThru;
 			$testsFailed += $results.FailedCount;
 		}
@@ -101,10 +102,10 @@ Task "Generate-Packages" -alias "pack" -description "This task generates the app
 -depends @("restore") -action {
 	if (Test-Path $ArtifactsDir) { Remove-Item $ArtifactsDir -Recurse -Force; }
 	New-Item $ArtifactsDir -ItemType Directory | Out-Null;
-	
+
 	$version = Get-Version;
 	$proj = Get-Item "$RootDir\src\*\*.csproj";
-	Write-LineBreak "dotnet: pack '$($proj.BaseName)'";
+	Write-LineBreak "dotnet: pack ($($proj.BaseName))";
 	Exec { &dotnet pack $proj.FullName --output "$ArtifactsDir\nuget" --configuration $Configuration /p:PackageVersion=$version; }
 }
 

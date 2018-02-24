@@ -100,7 +100,7 @@ namespace Acklann.NShellit.Tests
         [TestMethod]
         public void TryMap_should_return_errors_when_invalid_args_are_passed()
         {
-            var sut = new Parser(new ParserSettings(), Mock.Create<IHelpBuilder>());
+            var sut = new Parser(ParserOptions.None, Mock.Create<IHelpBuilder>());
             sut.DefineCommand(string.Empty)
                 .WithParameter<string>("Name")
                     .Alias("n")
@@ -131,7 +131,7 @@ namespace Acklann.NShellit.Tests
             mockHelpBuilder.Arrange(x => x.PrintHelp(Arg.AnyString, Arg.IsAny<CommandInfo[]>()))
                 .OccursOnce();
 
-            var sut = new Parser(new ParserSettings(), mockHelpBuilder);
+            var sut = new Parser(ParserOptions.None, mockHelpBuilder);
             sut.DefineCommand("commit")
                 .WithParameter<string>("Message")
                 .Alias("m")
@@ -151,9 +151,9 @@ namespace Acklann.NShellit.Tests
         {
             var sut = new Parser();
             sut.DefineCommand<NonDecoratedCommand>("foo")
-                .WithParameter(x=> x.NumericValue)
+                .WithParameter(x => x.NumericValue)
                 .Required()
-                .WithParameter(x=> x.TextValue)
+                .WithParameter(x => x.TextValue)
                 .SetDefault("gazy");
 
             RunTryMapTest(sut, new string[]
@@ -161,7 +161,6 @@ namespace Acklann.NShellit.Tests
                 $"foo -{nameof(NonDecoratedCommand.NumericValue)} 321",
                 $"foo -{nameof(NonDecoratedCommand.TextValue)} abc -{nameof(NonDecoratedCommand.NumericValue)} 123",
             });
-
         }
 
         [TestMethod]
@@ -185,12 +184,12 @@ namespace Acklann.NShellit.Tests
 
             // Act
             /* Internal */
-            var successExitCode = new Parser(new ParserSettings(), mockHelpBuilder).Map<MutableCommand, ImmutableCommand, int>($"{MutableCommand.Name} -b 99 -a".Split(' '),
+            var successExitCode = new Parser(ParserOptions.None, mockHelpBuilder).Map<MutableCommand, ImmutableCommand, int>($"{MutableCommand.Name} -b 99 -a".Split(' '),
                 (a) => { instance2 = a; return 0; },
                 (b) => 0,
                 (e) => 1);
 
-            var errorExitCode = new Parser(new ParserSettings(), mockHelpBuilder).Map<ImmutableCommand, MutableCommand, int>(new string[0],
+            var errorExitCode = new Parser(ParserOptions.None, mockHelpBuilder).Map<ImmutableCommand, MutableCommand, int>(new string[0],
                 (a) => 0,
                 (b) => 0,
                 (e) => { errorMsg = e; return 1; });
@@ -204,13 +203,13 @@ namespace Acklann.NShellit.Tests
             (new Parser()).Map<object>(args("immutable 1"), new Type[] { typeof(MutableCommand), typeof(ImmutableCommand) },
                 (s) => { instance3 = (ImmutableCommand)s; }, (e) => { });
 
-            (new Parser(new ParserSettings() { EnableHelpCommand = true }, mockHelpBuilder)).Map<IFakeCommand>(args("help"), new Type[] { typeof(ImmutableCommand) },
+            (new Parser(ParserOptions.None, mockHelpBuilder)).Map<IFakeCommand>(args("help"), new Type[] { typeof(ImmutableCommand) },
                 (s) => { didNotCastHelpCommand = false; }, (e) => { didNotCastHelpCommand = false; });
 
-            (new Parser(new ParserSettings() { EnableHelpCommand = true }, mockHelpBuilder)).Map<IFakeCommand>(args("help immutable"), new Type[] { typeof(ImmutableCommand) },
+            (new Parser(ParserOptions.None, mockHelpBuilder)).Map<IFakeCommand>(args("help immutable"), new Type[] { typeof(ImmutableCommand) },
                 (s) => { didNotCastHelpCommand = false; }, (e) => { didNotCastHelpCommand = false; });
 
-            (new Parser(new ParserSettings() { EnableVersionCommand = true }, mockHelpBuilder)).Map<IFakeCommand>(args("version"), new Type[] { typeof(ImmutableCommand) },
+            (new Parser(ParserOptions.None, mockHelpBuilder)).Map<IFakeCommand>(args("version"), new Type[] { typeof(ImmutableCommand) },
                 (s) => { didNotCastVersionCommand = false; }, (e) => { didNotCastVersionCommand = false; });
 
             var nullErrorExitCode = new Parser().Map<IFakeCommand, int>(args("invalid -e 109"), new Type[] { },
