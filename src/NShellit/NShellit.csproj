@@ -21,7 +21,7 @@
     <RepositoryUrl>https://github.com/Ackara/Nshellit.git</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Acklann.Poshley.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Update="Extensions\Extensions.tt">
