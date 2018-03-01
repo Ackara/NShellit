@@ -118,6 +118,7 @@ Task "Publish-NuGetPackages" -alias "push-nuget" -description "This task publish
 Task "Tag-Release" -alias "tag" -description "This task tags the last commit with the version number." `
 -depends @("restore") -precondition { return -not ($OnlyTagMasterBranch -and ($Branch -ine 'master')); }  -action {
     $version = Get-NcrementManifest $ManifestJson | Convert-NcrementVersionNumberToString;
+	Write-Header "git";
     Exec { &git tag v$version | Out-Null; }
     Exec { &git push | Out-Null; }
 }
