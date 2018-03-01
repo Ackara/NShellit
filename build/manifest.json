@@ -1,23 +1,21 @@
 ﻿{
-  "name": "NShellit",
-  "description": "A .netstandard command-line parser and powershell wrapper.",
-  "version":
-  {
-    "major": 0,
-    "minor": 0,
-    "patch": 5
-  },
-  "company": "Acklann",
-  "author": "Ackara and Contributors",
-  "tags": "netstandard console command-line parser powershell wrapper",
-  "copyright": "MIT License",
-  "website": "https://github.com/Ackara/NShellit",
-  "repositoryUrl": "https://github.com/Ackara/Nshellit.git",
-  "icon": "https://github.com/Ackara/NShellit/raw/master/art/icon.png",
-  "license": "https://github.com/Ackara/NShellit/blob/master/license.txt",
-  "branchSuffixMap":
-  {
-    "master": "",
-    "*": "rc"
-  }
+    "name":  "NShellit",
+    "description":  "A .netstandard command-line parser and powershell wrapper.",
+    "version":  {
+                    "major":  0,
+                    "minor":  0,
+                    "patch":  5
+                },
+    "company":  "Acklann",
+    "author":  "Ackara and Contributors",
+    "tags":  "netstandard console command-line parser powershell wrapper",
+    "copyright":  "MIT License",
+    "website":  "https://github.com/Ackara/NShellit",
+    "repositoryUrl":  "https://github.com/Ackara/Nshellit.git",
+    "icon":  "https://github.com/Ackara/NShellit/raw/master/art/icon.png",
+    "license":  "https://github.com/Ackara/NShellit/blob/master/license.txt",
+    "branchSuffixMap":  {
+                            "master":  "",
+                            "*":  "rc"
+                        }
 }
