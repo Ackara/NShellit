@@ -8,7 +8,7 @@
     <Product>NShellit</Product>
     <ProductName>NShellit</ProductName>
     <PackageVersion>0.0.6</PackageVersion>
-    <Description>A .netstandard command-line parser and powershell wrapper.</Description>
+    <Description>A netstandard command-line parser and powershell wrapper.</Description>
     <Authors>Ackara and Contributors</Authors>
     <Company>Acklann</Company>
     <Copyright>MIT License</Copyright>
