@@ -1,15 +1,16 @@
 ﻿# SYNOPSIS: This is a psake task file.
+
 Properties {
 	# Constants
 	$RootDir = "$(Split-Path $PSScriptRoot -Parent)";
 	$ManifestJson = "$PSScriptRoot\manifest.json";
-	$SecretsJson = "$PSScriptRoot\secrets.json";
 	$ArtifactsDir = "$RootDir\artifacts";
 	$PoshModulesDir = "";
+    $SolutionName = "";
 
 	# Args
+    $OnlyTagMasterBranch = $false;
 	$SkipCompilation = $false;
-	$CommitChanges = $false;
 	$Configuration = "";
 	$Secrets = @{ };
 	$Major = $false;
@@ -17,15 +18,17 @@ Properties {
 	$Branch = "";
 }
 
-Task "default" -depends @("restore", "compile", "test");
-Task "deploy" -alias "push" -depends @("restore", "version", "compile", "test", "pack", "publish");
+Task "Default" -depends @("restore", "compile", "test", "pack");
+
+Task "Deploy" -alias "publish" -description "This task compiles, test then publishes the solution." `
+-depends @("restore", "version", "compile", "test", "pack", "publish", "tag");
 
 #region ----- COMPILATION -----
 
-Task "Import-Dependencies" -alias "restore" -description "This task imports all dependencies." `
+Task "Import-Dependencies" -alias "restore" -description "This task imports all build dependencies." `
 -action {
 	#  Importing all required powershell modules.
-	foreach ($moduleId in @("Buildbox", "VSSetup"))
+	foreach ($moduleId in @("Ncrement"))
 	{
 		$modulePath = "$PoshModulesDir\$moduleId\*\*.psd1";
 		if (-not (Test-Path $modulePath))
@@ -33,63 +36,51 @@ Task "Import-Dependencies" -alias "restore" -description "This task imports all 
 			Save-Module $moduleId -Path $PoshModulesDir;
 		}
 		Import-Module $modulePath -Force;
-		Write-Host "   * imported the '$moduleId.$(Split-Path (Get-Item $modulePath).DirectoryName -Leaf)' powershell module.";
-	}
-
-	# Saving $Secrets to a file if available.
-	if ((-not (Test-Path $SecretsJson)) -and $Secrets.Count -gt 0)
-	{
-		$Secrets | ConvertTo-Json | Out-File $SecretsJson -Encoding utf8;
-		Write-Host "   * Added '$(Split-Path $SecretsJson -Leaf)' to project.";
-	}
-
-	# Creating a new manifest if not available.
-	if (-not (Test-Path $ManifestJson))
-	{
-		New-BuildboxManifest $ManifestJson | Out-Null;
-		Write-Host "   * Added '$(Split-Path $ManifestJson -Leaf)' to project.";
+		Write-Host "  * imported the '$moduleId.$(Split-Path (Get-Item $modulePath).DirectoryName -Leaf)' powershell module.";
 	}
 }
 
 Task "Increment-VersionNumber" -alias "version" -description "This task increments the project's version numbers" `
 -depends @("restore") -action {
-	$result = Get-BuildboxManifest $ManifestJson | Update-ProjectManifests "$RootDir\src" -Break:$Major -Feature:$Minor -Patch -Tag -Commit:$CommitChanges;
+    $manifest = Get-NcrementManifest $ManifestJson;
+    $oldVersion = $manifest | Convert-NcrementVersionNumberToString;
+	$result = $manifest | Step-NcrementVersionNumber $Branch -Break:$Major -Feature:$Minor -Patch | Update-NcrementProjectFile "$RootDir\src" -Commit;
+    $newVersion = $manifest | Convert-NcrementVersionNumberToString;
 
-	Write-Host "   * Incremented version number from '$($result.OldVersion)' to '$($result.Version)'.";
+	Write-Host "  * Incremented version number from '$oldVersion' to '$newVersion'.";
 	foreach ($file in $result.ModifiedFiles)
 	{
-		Write-Host "     * Updated $(Split-Path $file -Leaf).";
+		Write-Host "    * Updated $(Split-Path $file -Leaf).";
 	}
 }
 
 Task "Build-Solution" -alias "compile" -description "This task compiles the solution." `
 -depends @("restore") -precondition { return (-not $SkipCompilation); } -action {
-	Write-LineBreak "dotnet: msbuild";
+	Write-Header "dotnet: msbuild";
 	Exec { &dotnet msbuild $((Get-Item "$RootDir\*.sln").FullName) "/p:Configuration=$Configuration" "/verbosity:minimal"; }
 }
 
 Task "Run-Tests" -alias "test" -description "This task invoke all tests within the 'tests' folder." `
 -depends @("restore") -action {
-	Push-Location $RootDir;
 	try
 	{
-		# Running all MSTest tests.
-		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\bin\$Configuration\*$(Split-Path $RootDir -Leaf)*test*.dll"))
+        # Running all MSTest assemblies.
+        Push-Location $RootDir;
+		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\bin\$Configuration" -Recurse -Filter "*$SolutionName*mstest*.dll" | Select-Object -First 1))
 		{
-			Write-LineBreak "dotnet: vstest ('$($testFile.BaseName)')";
+			Write-Header "dotnet: vstest '$($testFile.BaseName)'";
 			Exec { &dotnet vstest $testFile.FullName; }
-			Write-Host $testFile.FullName;
 		}
 
-		# Running all Pester tests.
+		# Running all Pester scripts.
 		$testsFailed = 0;
 		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\" -Recurse -Filter "*tests.ps1"))
 		{
-			Write-LineBreak "pester ($($testFile.BaseName))";
+			Write-Header "Pester '$($testFile.BaseName)'";
 			$results = Invoke-Pester -Script $testFile.FullName -PassThru;
 			$testsFailed += $results.FailedCount;
+            if ($results.FailedCount -gt 0) { throw "'$($testFile.BaseName)' failed '$($results.FailedCount)' test(s)."; }
 		}
-		if ($testsFailed -ge 1) { throw "FAILED $testsFailed Pester tests."; }
 	}
 	finally { Pop-Location; }
 }
@@ -98,59 +89,85 @@ Task "Run-Tests" -alias "test" -description "This task invoke all tests within t
 
 #region ----- PUBLISHING -----
 
-Task "Generate-Packages" -alias "pack" -description "This task generates the app delployment packages." `
+Task "Package-Solution" -alias "pack" -description "This task generates all delployment packages." `
 -depends @("restore") -action {
+    $version = Get-NcrementManifest $ManifestJson | Convert-NcrementVersionNumberToString $Branch -AppendSuffix;
 	if (Test-Path $ArtifactsDir) { Remove-Item $ArtifactsDir -Recurse -Force; }
 	New-Item $ArtifactsDir -ItemType Directory | Out-Null;
-
-	$version = Get-Version;
+	
 	$proj = Get-Item "$RootDir\src\*\*.csproj";
-	Write-LineBreak "dotnet: pack ($($proj.BaseName))";
-	Exec { &dotnet pack $proj.FullName --output "$ArtifactsDir\nuget" --configuration $Configuration /p:PackageVersion=$version; }
+	Write-Header "dotnet: pack '$($proj.BaseName)'";
+	Exec { &dotnet pack $proj.FullName --output $ArtifactsDir --configuration $Configuration /p:PackageVersion=$version; }
 }
 
-Task "Publish-Application" -alias "publish" -description "This task publish all app packages to their respective host." `
--depends @("pub-nuget");
+Task "Publish-Solution" -alias "push" -description "This task publish all packages to their respective host." `
+-depends @("pack", "push-nuget");
 
-Task "Publish-NuGetPackages" -alias "pub-nuget" -description "This task publish all .nupkg files to nuget.org." `
+Task "Publish-NuGetPackages" -alias "push-nuget" -description "This task publish all nuget packages to nuget.org." `
 -depends @("restore") -action {
-	Assert (Test-Path $ArtifactsDir) "No packages found; run the 'pack' task then try again.";
+	$apiKey = Get-Secret "nugetKey";
+	Assert (Test-Path $ArtifactsDir) "No nuget packages were found. Try running the 'pack' task then try again.";
 
-	foreach ($nupkg in Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg")
+	foreach ($nupkg in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg"))
 	{
-		Write-Host "   * published '$($nupkg.Name)' to nuget.org";
-		Write-Warning "NOT Implemented";
+		Write-Header "dotnet: nuget push '$($nupkg.Name)'";
+		Exec { &dotnet nuget push $nupkg.FullName --source "https://api.nuget.org/v3/index.json" --api-key $apiKey; }
 	}
+}
+
+Task "Tag-Release" -alias "tag" -description "This task tags the last commit with the version number." `
+-depends @("restore") -precondition { return -not ($OnlyTagMasterBranch -and ($Branch -ine 'master')); }  -action {
+    $version = Get-NcrementManifest $ManifestJson | Convert-NcrementVersionNumberToString;
+    Exec { &git tag v$version | Out-Null; }
+    Exec { &git push | Out-Null; }
 }
 
 #endregion
 
-#region ----- FUNCTIONS -----
+#region ----- HELPER FUNCTIONS -----
 
-function Get-Manifest()
-{
-	return Get-Content $ManifestJson | Out-String | ConvertFrom-Json;
-}
-
-function Get-Version()
-{
-	$manifest = Get-BuildboxManifest;
-	$suffix = $manifest | Get-VersionSuffix $Branch;
-	if (-not [string]::IsNullOrEmpty($suffix)) {  $suffix = "-$suffix"; }
-	return "$($manifest.Version.ToString())$suffix";
-}
-
-function Get-Secret([string]$key)
+function Get-Secret([Parameter(ValueFromPipeline)][string]$key)
 {
 	$value = $Secrets.$key;
-	if ([string]::IsNullOrEmpty($value))
+    $secretsJson = "$PSScriptRoot\secrets.json";
+
+
+	if ([string]::IsNullOrEmpty($value) -and (Test-Path $secretsJson))
 	{
-		$value = Get-Content $SecretsJson | Out-String | ConvertFrom-Json | Select-Object -ExpandProperty $key;
+		$value = Get-Content $secretsJson | Out-String | ConvertFrom-Json | Select-Object -ExpandProperty $key;
 	}
+    elseif ((-not (Test-Path $secretsJson)) -and ($Secrets.Count -gt 0))
+    {
+        $Secrets | ConvertTo-Json | Out-File $secretsJson -Encoding utf8;
+        Write-Host "  * Added '$(Split-Path $secretsJson -Leaf)' to project.";
+    }
+
+    Assert (-not [string]::IsNullOrEmpty($value)) "Your '$key' was not specified. Provided a value via the `$Secrets parameter eg. `$Secrets=@{'$key'='your_sercret_value'}";
 	return $value;
 }
 
+function Write-Header([string]$Title = "", [int]$length = 70, [switch]$AsValue)
+{
+	$header = [string]::Join('', [System.Linq.Enumerable]::Repeat('-', $length));
+	if (-not [String]::IsNullOrEmpty($Title))
+	{
+		$header = $header.Insert(4, " $Title ");
+		if ($header.Length -gt $length) { $header = $header.Substring(0, $length); }
+	}
+
+	if ($AsValue) { return $header; } else { Write-Host ''; Write-Host $header -ForegroundColor DarkGray; Write-Host ''; }
+}
+
+function Get-IfNull([Parameter(Mandatory, ValueFromPipeline)][string]$Value, [Parameter(Position=0)][string]$Fallback)
+{
+    if ([string]::IsNullOrEmpty($Value)) { return $Fallback; } else { return $Value; }
+}
+
+function Coalesce([Parameter(Mandatory, ValueFromPipeline)][bool]$Condition, [Parameter(Mandatory, Position = 0)]$TrueValue, [Parameter(Mandatory, Position = 1)]$FalseValue)
+{
+	if ($Condition) { return $TrueValue; } else { return $FalseValue; }
+}
+
 #endregion
 
-$seperator = "----------------------------------------------------------------------";
-FormatTaskName "$seperator`r`n  {0}`r`n$seperator";
+FormatTaskName "$(Write-Header -AsValue)`r`n  {0}`r`n$(Write-Header -AsValue)";

@@ -1,20 +1,20 @@
 ﻿{
+  "name": "NShellit",
+  "description": "A useful description.",
   "version":
   {
     "major": 0,
     "minor": 0,
-    "patch": 5,
-    "suffix": ""
+    "patch": 5
   },
-  "productName": "NShellit",
-  "description": "A useful description.",
-  "owner": "Acklann",
-  "authors": "Ackara \u0026 Contributors",
-  "tags": "command-line parser powershell console",
+  "company": "Acklann",
+  "author": "Ackara and Contributors",
+  "tags": "netstandard console command-line parser powershell wrapper",
   "copyright": "MIT License",
-  "projectUrl": "https://github.com/Ackara/NShellit",
-  "iconUri": "https://raw.githubusercontent.com/Ackara/NShellit/master/art/icon.png",
-  "licenseUri": "https://github.com/Ackara/NShellit/blob/master/license.txt",
+  "website": "https://github.com/Ackara/NShellit",
+  "repositoryUrl": "https://github.com/Ackara/Nshellit.git",
+  "icon": "https://github.com/Ackara/NShellit/raw/master/art/icon.png",
+  "license": "https://github.com/Ackara/NShellit/blob/master/license.txt",
   "branchSuffixMap":
   {
     "master": "",

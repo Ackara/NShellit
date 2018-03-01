@@ -1,6 +1,10 @@
 ﻿<#
 .SYNOPSIS
-This script bootstraps the psake tasks.
+Run one or more tasks defined in the '\build\tasks.psake.ps1' file.
+
+.EXAMPLE
+.\build.ps1 -Help;
+This example prints a list of all the available tasks.
 #>
 
 Param(
@@ -14,19 +18,17 @@ Param(
 	[Alias('s', "keys")]
 	[hashtable]$Secrets = @{},
 
-	[Alias("sc", "nobuild")]
+	[Alias("sc", "no-build")]
 	[switch]$SkipCompilation,
-
-	[Alias('nc', 'nocommit')]
-	[switch]$DoNotCommitChanges,
-
+	
 	[string]$TaskFile = "$PSScriptRoot\build\*psake*.ps1",
+    [switch]$OnlyTagMasterBranch,
 	[switch]$Major,
 	[switch]$Minor,
 	[switch]$Help
 )
 
-# Get source control branch name.
+# Getting the current branch of source control.
 $branchName = $env:BUILD_SOURCEBRANCHNAME;
 if ([string]::IsNullOrEmpty($branchName))
 {
@@ -34,17 +36,17 @@ if ([string]::IsNullOrEmpty($branchName))
 	if ($match.Success) { $branchName = $match.Groups["name"].Value; }
 }
 
-# Install then invoke Psake tasks.
+# Installing then invoking the Psake tasks.
 $psModulesDir = "$PSScriptRoot\build\powershell_modules";
-$modulePath = "$psModulesDir\psake\*\*.psd1";
-if (-not (Test-Path $modulePath))
+$psakeModule = "$psModulesDir\psake\*\*.psd1";
+if (-not (Test-Path $psakeModule))
 { 
 	if (-not (Test-Path $psModulesDir)) { New-Item $psModulesDir -ItemType Directory | Out-Null; }
 	Save-Module "psake" -Path $psModulesDir; 
 }
-Import-Module $modulePath -Force;
+Import-Module $psakeModule -Force;
 
-if ($Help) { Invoke-psake -buildFile $TaskFile -docs; }
+if ($Help) { Invoke-Psake -buildFile $TaskFile -docs; }
 else
 {
 	Write-Host -ForegroundColor DarkGray "User:     $env:USERNAME";
@@ -58,8 +60,9 @@ else
 		"Minor"=$Minor.IsPresent;
 		"PoshModulesDir"=$psModulesDir;
 		"Configuration"=$Configuration;
-		"CommitChanges"=(-not $DoNotCommitChanges.IsPresent);
 		"SkipCompilation"=$SkipCompilation.IsPresent;
+        "SolutionName"=(Split-Path $PSScriptRoot -Leaf);
+        "OnlyTagMasterBranch"=$OnlyTagMasterBranch.IsPresent;
 	}
 	if (-not $psake.build_success) { exit 1; }
 }
