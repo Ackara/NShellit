@@ -21,7 +21,7 @@ Properties {
 Task "Default" -depends @("restore", "compile", "test", "pack");
 
 Task "Deploy" -alias "publish" -description "This task compiles, test then publishes the solution." `
--depends @("restore", "version", "compile", "test", "pack", "publish", "tag");
+-depends @("restore", "version", "compile", "test", "pack", "push", "tag");
 
 #region ----- COMPILATION -----
 
