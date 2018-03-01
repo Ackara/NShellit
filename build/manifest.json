@@ -4,7 +4,8 @@
     "version":  {
                     "major":  0,
                     "minor":  0,
-                    "patch":  5
+                    "patch":  11,
+                    "Suffix":  ""
                 },
     "company":  "Acklann",
     "author":  "Ackara and Contributors",
@@ -17,5 +18,8 @@
     "branchSuffixMap":  {
                             "master":  "",
                             "*":  "rc"
-                        }
+                        },
+    "Id":  "",
+    "Summary":  "",
+    "ReleaseNotes":  ""
 }
