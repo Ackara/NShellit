@@ -22,6 +22,8 @@ namespace Acklann.NShellit
         public CommandInfo(string name, params Argument[] arguments)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
+
+            Aliases = new List<string>();
             Examples = new List<Example>();
             RelatedLinks = new List<string>();
 
@@ -74,6 +76,12 @@ namespace Acklann.NShellit
         /// </summary>
         /// <value>The description.</value>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the aliases.
+        /// </summary>
+        /// <value>The aliases.</value>
+        public ICollection<string> Aliases { get; set; }
 
         /// <summary>
         /// Gets or sets the examples.
@@ -141,6 +149,10 @@ namespace Acklann.NShellit
                             if (parameter.Position >= 0) occupiedPosition[parameter.Position] = true;
                             break;
 
+                        case AliasAttribute alias:
+                            arg.Aliases = alias.Aliases;
+                            break;
+
                         case SummaryAttribute summary:
                             arg.Description = summary.Summary;
                             break;
@@ -172,6 +184,10 @@ namespace Acklann.NShellit
                     case CommandAttribute info:
                         command.Name = info.Name;
                         command.Description = info.Summary;
+                        break;
+
+                    case AliasAttribute alias:
+                        command.Aliases = alias.Aliases;
                         break;
 
                     case ExampleAttribute example:

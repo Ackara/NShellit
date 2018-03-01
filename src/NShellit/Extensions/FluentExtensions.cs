@@ -43,6 +43,31 @@ namespace Acklann.NShellit.Extensions
         /* CommandInfo */
 
         /// <summary>
+        /// Sets the alias.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="aliases">The aliases.</param>
+        /// <returns>CommandInfo.</returns>
+        public static CommandInfo SetAlias(this CommandInfo command, params string[] aliases)
+        {
+            command.Aliases = aliases;
+            return command;
+        }
+
+        /// <summary>
+        /// Sets the alias.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="command">The command.</param>
+        /// <param name="aliases">The aliases.</param>
+        /// <returns>CommandInfo&lt;T&gt;.</returns>
+        public static CommandInfo<T> SetAlias<T>(this CommandInfo<T> command, params string[] aliases)
+        {
+            command.Aliases = aliases;
+            return command;
+        }
+
+        /// <summary>
         /// Appends a link to the <see cref="CommandInfo"/> object.
         /// </summary>
         /// <param name="command">The command.</param>
@@ -229,7 +254,7 @@ namespace Acklann.NShellit.Extensions
         /// <param name="argument">The argument.</param>
         /// <param name="aliases">The aliases.</param>
         /// <returns>Argument.</returns>
-        public static Argument Alias(this Argument argument, params string[] aliases)
+        public static Argument SetAlias(this Argument argument, params string[] aliases)
         {
             argument.Aliases = aliases;
             return argument;
@@ -282,7 +307,7 @@ namespace Acklann.NShellit.Extensions
         /// <param name="argument">The argument.</param>
         /// <param name="aliases">The aliases.</param>
         /// <returns>Argument&lt;T&gt;.</returns>
-        public static Argument<T> Alias<T>(this Argument<T> argument, params string[] aliases)
+        public static Argument<T> SetAlias<T>(this Argument<T> argument, params string[] aliases)
         {
             argument.Aliases = aliases;
             return argument;

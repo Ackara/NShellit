@@ -62,26 +62,26 @@ namespace Acklann.NShellit.Tests
             var sut = new Parser();
             sut.DefineCommand(string.Empty)
                 .WithParameter<string[]>("Input")
-                    .Alias("i", "Files")
+                    .SetAlias("i", "Files")
                     .SetDefault(new string[0])
                 .WithParameter<string>("Output")
-                    .Alias("o", "Destination")
+                    .SetAlias("o", "Destination")
                     .SetDefault("default.csv")
                 .WithParameter<bool>("Force")
-                    .Alias("f")
+                    .SetAlias("f")
                     .SetDefault(false);
 
             sut.DefineCommand("foo")
                 .WithParameter("Gender", typeof(char))
-                    .Alias("g")
+                    .SetAlias("g")
                     .SetDefault('f')
                 .WithParameter<DateTime>("Dob")
-                    .Alias("d")
+                    .SetAlias("d")
                     .SetDefault(new DateTime(2002, 02, 02));
 
             sut.DefineCommand("bar")
                 .WithParameter<FakeEnum>("Direction")
-                    .Alias("d")
+                    .SetAlias("d")
                     .SetDefault(FakeEnum.North | FakeEnum.West);
 
             RunTryMapTest(sut, new string[]
@@ -103,13 +103,13 @@ namespace Acklann.NShellit.Tests
             var sut = new Parser(ParserOptions.None, Mock.Create<IHelpBuilder>());
             sut.DefineCommand(string.Empty)
                 .WithParameter<string>("Name")
-                    .Alias("n")
+                    .SetAlias("n")
                     .SetDefault("john")
                 .WithParameter<int>("Age")
-                    .Alias("a")
+                    .SetAlias("a")
                     .SetDefault(18)
                 .WithParameter<bool>("Avaiable")
-                    .Alias("o")
+                    .SetAlias("o")
                     .SetDefault(false);
 
             sut.DefineCommand("req")
@@ -134,7 +134,7 @@ namespace Acklann.NShellit.Tests
             var sut = new Parser(ParserOptions.None, mockHelpBuilder);
             sut.DefineCommand("commit")
                 .WithParameter<string>("Message")
-                .Alias("m")
+                .SetAlias("m")
                 .SetDefault(string.Empty);
 
             // Act

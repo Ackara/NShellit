@@ -153,7 +153,8 @@ function {0}({2})
     $dll = ""$PSScriptRoot\bin\{1}"";
     return (&dotnet $dll {8} {7});
 }}
-", name, Path.GetFileName(executable), GetParameterList(command), (command.Description), GetParameterDocs(command), GetExamplesDoc(command), GetRelatedLinksDoc(command), GetArgumentList(command), command.Name, GetPreparationCode(command));
+{10}
+", name, Path.GetFileName(executable), GetParameterList(command), (command.Description), GetParameterDocs(command), GetExamplesDoc(command), GetRelatedLinksDoc(command), GetArgumentList(command), command.Name, GetPreparationCode(command), GetAliases(command));
 
             File.WriteAllText(Path.Combine(_packageDirectory, $"{name}.ps1"), script, Encoding.UTF8);
         }
@@ -285,6 +286,20 @@ function {0}({2})
                 return _content.ToString();
             }
             else return string.Empty;
+        }
+
+        /* *** {10} *** */
+
+        private string GetAliases(CommandInfo command)
+        {
+            _content.Clear();
+            _content.AppendLine();
+            foreach (string name in command.Aliases)
+            {
+                _content.AppendLine($"Set-Alias -Name '{name}' -Value '{GetCmdlet(command)}';");
+            }
+
+            return _content.ToString();
         }
 
         #region Private Fields

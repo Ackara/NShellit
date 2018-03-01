@@ -42,23 +42,23 @@ namespace Acklann.NShellit.Tests
                     .Required()
                 .WithParameter(x => x.PrecisionValue, "coordinate")
                     .SetDescription("An number value.")
-                    .Alias("point")
+                    .SetAlias("point")
                     .SetDefault(0)
                 .WithParameter(x => x.CharValue)
                     .SetDescription("A char value.")
-                    .Alias("c")
+                    .SetAlias("c")
                     .SetDefault('c')
                 .WithParameter(x => x.Collection)
                     .SetDescription("An array")
-                    .Alias("l", "list")
+                    .SetAlias("l", "list")
                     .SetDefault(new string[] { "a", "b", "c" })
                 .WithParameter(x => x.DateValue)
                     .SetDescription("A date value.")
-                    .Alias("d", "date")
+                    .SetAlias("d", "date")
                     .SetDefault(DateTime.Now)
                 .WithParameter(x => x.EnumValue)
                     .SetDescription("A fake value.")
-                    .Alias("e")
+                    .SetAlias("e")
                     .SetDefault(FakeEnum.North);
 
             one.AddLinks("Write-Host");
@@ -72,7 +72,7 @@ namespace Acklann.NShellit.Tests
                 .Required()
                 .WithParameter("Contact", typeof(string), "phone")
                 .SetDescription("A phone number")
-                .Alias("tel");
+                .SetAlias("tel");
 
             return new CommandInfo[] { one, two };
         }

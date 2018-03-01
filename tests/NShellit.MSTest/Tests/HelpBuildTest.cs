@@ -37,16 +37,16 @@ namespace Acklann.NShellit.Tests
                 .SetDefault("john");
 
             command.WithParameter<string>("Message")
-                .Alias("m", "message", "msg")
+                .SetAlias("m", "message", "msg")
                 .SetDescription("This is a message.")
                 .Required();
 
             command.WithParameter<bool>("Append")
-                .Alias("a", "append")
+                .SetAlias("a", "append")
                 .SetDescription("This is a boolean.");
 
             command.WithParameter<Sex>("Date")
-                .Alias("d")
+                .SetAlias("d")
                 .SetDescription("The commit date");
 
             command.AddExample("commit -m foobar", "This is an example.");
@@ -72,7 +72,7 @@ namespace Acklann.NShellit.Tests
 
             var command = new CommandInfo("commit");
             command.WithParameter<string>("Message")
-                .Alias("m", "message", "msg")
+                .SetAlias("m", "message", "msg")
                 .SetDescription("This is a message.")
                 .Required();
 
