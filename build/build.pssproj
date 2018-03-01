@@ -31,6 +31,7 @@
       <Link>commands.json</Link>
     </Content>
     <Content Include="manifest.json" />
+    <Content Include="secrets.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\build.ps1">
