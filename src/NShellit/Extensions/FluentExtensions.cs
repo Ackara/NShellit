@@ -16,11 +16,11 @@ namespace Acklann.NShellit.Extensions
         /// </summary>
         /// <param name="parser">The parser.</param>
         /// <param name="name">The name of the command.</param>
-        /// <param name="cmdlet">The cmdlet name.</param>
+        ///
         /// <returns>The newly created <see cref="CommandInfo"/> object.</returns>
-        public static CommandInfo DefineCommand(this Parser parser, string name, string cmdlet = "")
+        public static CommandInfo DefineCommand(this Parser parser, string name)
         {
-            var command = new CommandInfo(name) { Cmdlet = cmdlet };
+            var command = new CommandInfo(name);
             parser.Add(command);
             return command;
         }
@@ -31,16 +31,41 @@ namespace Acklann.NShellit.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="parser">The parser.</param>
         /// <param name="name">The name of the command.</param>
-        /// <param name="cmdlet">The cmdlet name.</param>
+        ///
         /// <returns>The newly created <see cref="CommandInfo"/> object.</returns>
-        public static CommandInfo<T> DefineCommand<T>(this Parser parser, string name, string cmdlet = "")
+        public static CommandInfo<T> DefineCommand<T>(this Parser parser, string name)
         {
-            var command = new CommandInfo<T>(name) { Cmdlet = cmdlet };
+            var command = new CommandInfo<T>(name);
             parser.Add(command);
             return command;
         }
 
         /* CommandInfo */
+
+        /// <summary>
+        /// Sets the cmdlet.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="cmdlet">The cmdlet.</param>
+        /// <returns>CommandInfo.</returns>
+        public static CommandInfo SetCmdlet(this CommandInfo command, string cmdlet)
+        {
+            command.Cmdlet = cmdlet;
+            return command;
+        }
+
+        /// <summary>
+        /// Sets the cmdlet.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="command">The command.</param>
+        /// <param name="cmdlet">The cmdlet.</param>
+        /// <returns>CommandInfo&lt;T&gt;.</returns>
+        public static CommandInfo<T> SetCmdlet<T>(this CommandInfo<T> command, string cmdlet)
+        {
+            command.Cmdlet = cmdlet;
+            return command;
+        }
 
         /// <summary>
         /// Sets the alias.
@@ -228,11 +253,11 @@ namespace Acklann.NShellit.Extensions
         /// Sets the description.
         /// </summary>
         /// <param name="argument">The argument.</param>
-        /// <param name="text">The text.</param>
+        /// <param name="description">The description.</param>
         /// <returns>Argument.</returns>
-        public static Argument SetDescription(this Argument argument, string text)
+        public static Argument SetDescription(this Argument argument, string description)
         {
-            argument.Description = text;
+            argument.Description = description;
             return argument;
         }
 

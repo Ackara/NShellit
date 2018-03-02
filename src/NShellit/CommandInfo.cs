@@ -39,7 +39,9 @@ namespace Acklann.NShellit
         }
 
         internal Type Target;
+        internal string Cmdlet;
         internal bool IsInternal;
+        internal ICollection<string> Aliases;
 
         /// <summary>
         /// Gets the number arguments.
@@ -66,22 +68,10 @@ namespace Acklann.NShellit
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the cmdlet.
-        /// </summary>
-        /// <value>The cmdlet.</value>
-        public string Cmdlet { get; set; }
-
-        /// <summary>
         /// Gets or sets the description.
         /// </summary>
         /// <value>The description.</value>
         public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the aliases.
-        /// </summary>
-        /// <value>The aliases.</value>
-        public ICollection<string> Aliases { get; set; }
 
         /// <summary>
         /// Gets or sets the examples.

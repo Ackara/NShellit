@@ -35,8 +35,10 @@ namespace Acklann.NShellit.Tests
 
         private static IEnumerable<CommandInfo> GetCommandList()
         {
-            var one = new CommandInfo<NonDecoratedCommand>("one") { Cmdlet = "Write-Foo" };
+            var one = new CommandInfo<NonDecoratedCommand>("one");
+
             one.SetDescription("This is a good command.")
+                .SetCmdlet("Write-Foo")
                 .WithParameter(x => x.NumericValue)
                     .SetDescription("An id value.")
                     .Required()
