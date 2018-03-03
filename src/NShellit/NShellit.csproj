@@ -3,11 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Acklann.NShellit</RootNamespace>
     <AssemblyName>Acklann.NShellit</AssemblyName>
-    <AssemblyVersion>0.0.13</AssemblyVersion>
+    <AssemblyVersion>0.0.14</AssemblyVersion>
     <Title>NShellit</Title>
     <Product>NShellit</Product>
     <ProductName>NShellit</ProductName>
-    <PackageVersion>0.0.13</PackageVersion>
+    <PackageVersion>0.0.14</PackageVersion>
     <Description>A netstandard command-line parser and powershell wrapper.</Description>
     <Authors>Ackara and Contributors</Authors>
     <Company>Acklann</Company>
