@@ -9,7 +9,7 @@ namespace Acklann.NShellit.Generators
     public enum ShellKind
     {
         /// <summary>
-        /// Powershell
+        /// Powershell Module
         /// </summary>
         Powershell = 1
     }

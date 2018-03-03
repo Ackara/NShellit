@@ -20,6 +20,17 @@ namespace Acklann.NShellit.Attributes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterAttribute"/> class.
+        /// </summary>
+        /// <param name="shortName">The short name.</param>
+        /// <param name="longName">The long name.</param>
+        /// <param name="description">The description.</param>
+        public ParameterAttribute(char shortName, string longName, string description) : this(new string[] { char.ToString(shortName), longName })
+        {
+            Description = description;
+        }
+
+        /// <summary>
         /// The aliases
         /// </summary>
         public readonly string[] Aliases;
@@ -31,10 +42,10 @@ namespace Acklann.NShellit.Attributes
         public int Position { get; set; }
 
         /// <summary>
-        /// Gets or sets the help text.
+        /// Gets or sets the description.
         /// </summary>
         /// <value>The help text.</value>
-        public string HelpText { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the default value.

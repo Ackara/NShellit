@@ -23,7 +23,7 @@ namespace Acklann.NShellit.Generators
         /// Generates the package.
         /// </summary>
         /// <param name="commandList">The command list.</param>
-        /// <param name="executableFile">The executable file.</param>
-        void GeneratePackage(IEnumerable<CommandInfo> commandList, string executableFile);
+        /// <param name="assemblyFile">The executable file.</param>
+        void GeneratePackage(IEnumerable<CommandInfo> commandList, string assemblyFile, string outputDirectory);
     }
 }

@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Description>This is a sample description.</Description>
     <Copyright>All rights reserved.</Copyright>
     <AssemblyName>Acklann.NShellit.IntegrationTest</AssemblyName>
     <RootNamespace>Acklann.NShellit</RootNamespace>
 
+    <!--<Doo>Changed</Doo>-->
     <GeneratePackagesWithNShellitOnBuild>false</GeneratePackagesWithNShellitOnBuild>
   </PropertyGroup>
 

@@ -12,35 +12,35 @@ namespace Acklann.NShellit.Fakes
         [Ignore]
         public const string Name = "mutable", Id = "id", Date = "date";
 
-        [Parameter("a", HelpText = "A boolean value", Position = 1)]
+        [Parameter("a", Description = "A boolean value", Position = 1)]
         [Summary("A boolean value")]
         public bool Switch;
 
-        [Required, Parameter("b", Id, HelpText = "A integer value.", Position = 3)]
+        [Required, Parameter("b", Id, Description = "A integer value.", Position = 3)]
         [Summary("A integer value.")]
         public int NumericValue { get; set; }
 
-        [Parameter("c", HelpText = "A char value.", Position = 5)]
+        [Parameter("c", Description = "A char value.", Position = 5)]
         [Summary("A char value.")]
         public char CharValue { get; set; }
 
-        [Parameter("d", "text", HelpText = "A string value")]
+        [Parameter("d", "text", Description = "A string value")]
         [Summary("A string value")]
         public string TextValue { get; set; }
 
-        [Parameter("e", Date, HelpText = "A date value.")]
+        [Parameter("e", Date, Description = "A date value.")]
         [Summary("A date value.")]
         public DateTime DateValue { get; set; }
 
-        [Parameter("f", HelpText = "An enum value", Default = (FakeEnum.East | FakeEnum.South))]
+        [Parameter("f", Description = "An enum value", Default = (FakeEnum.East | FakeEnum.South))]
         [Summary("An enum value")]
         public FakeEnum EnumValue { get; set; }
 
-        [Parameter("g", HelpText = "A float value.")]
+        [Parameter("g", Description = "A float value.")]
         [Summary("A float value.")]
         public float PrecisionValue { get; set; }
 
-        [Parameter("h", HelpText = "A collection.")]
+        [Parameter("h", Description = "A collection.")]
         [Summary("A collection.")]
         public string[] Collection { get; set; }
     }

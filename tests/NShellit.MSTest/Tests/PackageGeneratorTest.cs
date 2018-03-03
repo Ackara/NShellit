@@ -66,7 +66,7 @@ namespace Acklann.NShellit.Tests
             one.AddLinks("Write-Host");
             one.AddExample("Write-Foo", "This does something.");
             one.AddExample("Write-Foo", "This does something.", true);
-            
+
             var two = new CommandInfo("two");
             two.SetDescription("This is a synopsis.")
                 .WithParameter<string>("Id")
@@ -81,8 +81,10 @@ namespace Acklann.NShellit.Tests
 
         private static void RunPackageTest(IShellWrapper sut, Func<IEnumerable<string>> filesToExamine)
         {
+            string location = typeof(PackageGeneratorTest).Assembly.Location;
+
             //  Act
-            sut.GeneratePackage(GetCommandList(), typeof(PackageGeneratorTest).Assembly.Location);
+            sut.GeneratePackage(GetCommandList(), location, Path.GetTempPath());
             var package = new DirectoryInfo(sut.PackageDirectory);
             var fileList = (from f in package.GetFiles("*", SearchOption.AllDirectories)
                             select f.FullName.Replace(package.FullName, string.Empty));

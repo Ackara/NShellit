@@ -41,18 +41,18 @@ namespace Acklann.NShellit.Generators
         /// Generates the powershell module from cli executable.
         /// </summary>
         /// <param name="commandList">The command list.</param>
-        /// <param name="executable">The executable.</param>
+        /// <param name="assemblyFile">The executable.</param>
         /// <exception cref="FileNotFoundException"></exception>
-        public void GeneratePackage(IEnumerable<CommandInfo> commandList, string executable)
+        public void GeneratePackage(IEnumerable<CommandInfo> commandList, string assemblyFile, string outputDirectory)
         {
-            if (!File.Exists(executable)) throw new FileNotFoundException($"Could not file at '{executable}'.");
+            if (!File.Exists(assemblyFile)) throw new FileNotFoundException($"Could not file at '{assemblyFile}'.");
 
-            string workingDirectory = Path.GetDirectoryName(executable);
-            _packageDirectory = Path.Combine(workingDirectory, "generated", nameof(NShellit), AppInfo.Product);
+            string workingDirectory = Path.GetDirectoryName(assemblyFile);
+            _packageDirectory = Path.Combine(outputDirectory, "powershell", AppInfo.Product);
             DeleteAllFileButTheModuleManifest();
 
             CopyAssemblyFilesToBinFolder(workingDirectory);
-            GeneratePSModuleManifest(commandList, executable);
+            GeneratePSModuleManifest(commandList, assemblyFile);
         }
 
         /* --- HELPER METHODS --- */
@@ -91,7 +91,7 @@ namespace Acklann.NShellit.Generators
 
             foreach (string file in assemblies)
             {
-                File.Copy(file, Path.Combine(binFolder, Path.GetFileName(file)));
+                File.Copy(file, Path.Combine(binFolder, Path.GetFileName(file)), overwrite: true);
             }
 
             foreach (string folder in subFolders)
@@ -102,18 +102,21 @@ namespace Acklann.NShellit.Generators
                     dir = Path.GetDirectoryName(dest);
                     if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
-                    File.Copy(file, dest);
+                    File.Copy(file, dest, overwrite: true);
                 }
             }
         }
 
-        private void GeneratePSModuleManifest(IEnumerable<CommandInfo> commandList, string executable)
+        private void GeneratePSModuleManifest(IEnumerable<CommandInfo> commandList, string assemblyFile)
         {
+            string exe = Path.ChangeExtension(assemblyFile, ".exe");
+            if (File.Exists(exe)) assemblyFile = exe;
+
             var cmdlets = new LinkedList<string>();
             foreach (CommandInfo command in commandList)
             {
                 cmdlets.AddLast(GetCmdlet(command));
-                WriteScript(executable, command);
+                WriteScript(assemblyFile, command);
             }
 
             // Creating powershell module manifest.
@@ -139,9 +142,11 @@ namespace Acklann.NShellit.Generators
 
         /* ----- */
 
-        private void WriteScript(string executable, CommandInfo command)
+        private void WriteScript(string executableFile, CommandInfo command)
         {
             string name = GetCmdlet(command);
+            string toolExe = (Path.GetExtension(executableFile).ToLowerInvariant() == ".dll" ? "dotnet " : string.Empty); /* {11} */
+
             var script = string.Format(@"<#
 .SYNOPSIS
 {3}{4}{5}{6}
@@ -150,11 +155,11 @@ namespace Acklann.NShellit.Generators
 function {0}({2})
 {{
     {9}
-    $dll = ""$PSScriptRoot\bin\{1}"";
-    return (&dotnet $dll {8} {7});
+    $exe = ""$PSScriptRoot\bin\{1}"";
+    return (&{11}$exe {8} {7});
 }}
 {10}
-", name, Path.GetFileName(executable), GetParameterList(command), (command.Description), GetParameterDocs(command), GetExamplesDoc(command), GetRelatedLinksDoc(command), GetArgumentList(command), command.Name, GetPreparationCode(command), GetAliases(command));
+", name, Path.GetFileName(executableFile), GetParameterList(command), (command.Description), GetParameterDocs(command), GetExamplesDoc(command), GetRelatedLinksDoc(command), GetArgumentList(command), command.Name, GetPreparationCode(command), GetAliases(command), toolExe);
 
             File.WriteAllText(Path.Combine(_packageDirectory, $"{name}.ps1"), script, Encoding.UTF8);
         }

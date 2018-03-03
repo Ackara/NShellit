@@ -55,8 +55,8 @@ function Write-Foo(
     $name5 = ''; $value5 = '';
     if ($EnumValue) { $name5 = '-EnumValue'; $value5 = $EnumValue.ToString(); }
 
-    $dll = "$PSScriptRoot\bin\Acklann.NShellit.MSTest.dll";
-    return (&dotnet $dll one $name0 $value0 $name1 $value1 $name2 $value2 $name3 $value3 $name4 $value4 $name5 $value5);
+    $exe = "$PSScriptRoot\bin\Acklann.NShellit.MSTest.dll";
+    return (&dotnet $exe one $name0 $value0 $name1 $value1 $name2 $value2 $name3 $value3 $name4 $value4 $name5 $value5);
 }
 
 

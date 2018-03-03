@@ -20,8 +20,8 @@ function Invoke-Two(
     $name1 = ''; $value1 = '';
     if ($Contact) { $name1 = '-Contact'; $value1 = $Contact.ToString(); }
 
-    $dll = "$PSScriptRoot\bin\Acklann.NShellit.MSTest.dll";
-    return (&dotnet $dll two $name0 $value0 $name1 $value1);
+    $exe = "$PSScriptRoot\bin\Acklann.NShellit.MSTest.dll";
+    return (&dotnet $exe two $name0 $value0 $name1 $value1);
 }
 
 

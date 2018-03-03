@@ -18,20 +18,27 @@ namespace Acklann.NShellit.Generators
             Name = Id;
             IsInternal = true;
             Target = typeof(PackageCommand);
-            Description = "";
-            Examples.Add(new Example("", ""));
-            RelatedLinks.Add("");
+            Description = $"Exports your application as one or more of the following ({string.Join(" | ", Enum.GetNames(typeof(ShellKind)))}).";
+            Examples.Add(new Example($"{Id} 1 '$assemblyLocation' '$psModuleDir'", "Wraps the console app in a powershell module."));
+            RelatedLinks.Add("https://github.com/Ackara/NShellit");
 
-            Add(new Argument(nameof(ExecutableFile), typeof(string))
+            Add(new Argument(nameof(PackageKind), typeof(ShellKind))
             {
                 Position = 0,
                 Description = "",
-                IsRequired = true
-            }, new Argument(nameof(PackageKind), typeof(ShellKind))
+                Default = (ShellKind.Powershell)
+            },
+            new Argument(nameof(AssemblyFile), typeof(string))
             {
                 Position = 1,
                 Description = "",
-                Default = (ShellKind.Powershell)
+                IsRequired = true
+            },
+            new Argument(nameof(OutputDirectory), typeof(string))
+            {
+                Position = 2,
+                Description = "",
+                IsRequired = true
             });
         }
 
@@ -44,7 +51,7 @@ namespace Acklann.NShellit.Generators
         /// Gets the kind of the package.
         /// </summary>
         /// <value>The kind of the package.</value>
-        internal ShellKind PackageKind
+        public ShellKind PackageKind
         {
             get { return (ShellKind)base[nameof(PackageKind).ToLowerInvariant()].GetValue(); }
         }
@@ -53,16 +60,25 @@ namespace Acklann.NShellit.Generators
         /// Gets the executable file.
         /// </summary>
         /// <value>The executable file.</value>
-        internal string ExecutableFile
+        public string AssemblyFile
         {
-            get { return base[nameof(ExecutableFile).ToLowerInvariant()].Value?.ToString(); }
+            get { return base[nameof(AssemblyFile).ToLowerInvariant()].Value?.ToString(); }
+        }
+
+        /// <summary>
+        /// Gets the output directory.
+        /// </summary>
+        /// <value>The output directory.</value>
+        public string OutputDirectory
+        {
+            get { return base[nameof(OutputDirectory).ToLowerInvariant()].Value?.ToString(); }
         }
 
         /// <summary>
         /// Generates the packages.
         /// </summary>
         /// <param name="commandList">The command list.</param>
-        internal void GeneratePackages(IEnumerable<CommandInfo> commandList)
+        public void GeneratePackages(IEnumerable<CommandInfo> commandList)
         {
             IEnumerable<IShellWrapper> packageGenerators = (from t in typeof(IShellWrapper).Assembly.ExportedTypes
                                                             where
@@ -74,7 +90,7 @@ namespace Acklann.NShellit.Generators
             foreach (IShellWrapper generator in packageGenerators)
                 if (PackageKind.HasFlag(generator.Kind))
                 {
-                    generator.GeneratePackage(commandList.Where(x => x.IsInternal == false), ExecutableFile);
+                    generator.GeneratePackage(commandList.Where(x => x.IsInternal == false), AssemblyFile, OutputDirectory);
                     Console.WriteLine($"{nameof(NShellit)} -> Successfully created package '{generator.PackageDirectory}\\'");
                 }
         }
