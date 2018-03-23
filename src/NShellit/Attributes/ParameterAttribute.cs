@@ -24,6 +24,15 @@ namespace Acklann.NShellit.Attributes
         /// </summary>
         /// <param name="shortName">The short name.</param>
         /// <param name="longName">The long name.</param>
+        public ParameterAttribute(char shortName, string longName) : this(new string[] { char.ToString(shortName), longName })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterAttribute"/> class.
+        /// </summary>
+        /// <param name="shortName">The short name.</param>
+        /// <param name="longName">The long name.</param>
         /// <param name="description">The description.</param>
         public ParameterAttribute(char shortName, string longName, string description) : this(new string[] { char.ToString(shortName), longName })
         {

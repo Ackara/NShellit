@@ -15,10 +15,10 @@ namespace Acklann.NShellit.Extensions
         /// <param name="parser">The parser.</param>
         /// <param name="arguments">The argument array.</param>
         /// <param name="commandList">The command list.</param>
-        /// <param name="onSuccess">The action invoked when a command is found.</param>
-        /// <param name="onParsingError">The action invoked when a parsing error occurs.</param>
+        /// <param name="matchHandler">The action invoked when a command is found.</param>
+        /// <param name="errorHandler">The action invoked when a parsing error occurs.</param>
         /// <exception cref="ArgumentException"><typeparamref name="TCommand"/> is not assignable from the mapped object command.</exception>
-        public static void Map<TCommand>(this Parser parser, string[] arguments, IEnumerable<Type> commandList, Action<TCommand> onSuccess, Action<string> onParsingError)
+        public static void Map<TCommand>(this Parser parser, string[] arguments, IEnumerable<Type> commandList, Action<TCommand> matchHandler, Action<string> errorHandler)
         {
             foreach (Type type in commandList) parser.Add(CommandInfo.ConvertFrom(type));
 
@@ -26,9 +26,9 @@ namespace Acklann.NShellit.Extensions
             {
                 if (command.IsInternal) { /* DO NOTHING; IT'S ALREADY HANDLED. */ }
                 else if (typeof(TCommand).IsAssignableFrom(command.Target) == false) throw new ArgumentException($"{command.Target.Name} is not of type {typeof(TCommand).Name}.", nameof(commandList));
-                else onSuccess((TCommand)command.ToObject());
+                else matchHandler((TCommand)command.ToObject());
             }
-            else onParsingError?.Invoke(error);
+            else errorHandler?.Invoke(error);
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace Acklann.NShellit.Extensions
         /// <param name="parser">The parser.</param>
         /// <param name="arguments">The arguments array.</param>
         /// <param name="commandList">The command list.</param>
-        /// <param name="onSuccess">The func invoked when a command is found.</param>
-        /// <param name="onParsingError">The func invoked when a parsing error occurs.</param>
+        /// <param name="matchHandler">The func invoked when a command is found.</param>
+        /// <param name="errorHandler">The func invoked when a parsing error occurs.</param>
         /// <returns>TResult.</returns>
         /// <exception cref="ArgumentException">commandList</exception>
-        public static TResult Map<TCommand, TResult>(this Parser parser, string[] arguments, IEnumerable<Type> commandList, Func<TCommand, TResult> onSuccess, Func<string, TResult> onParsingError)
+        public static TResult Map<TCommand, TResult>(this Parser parser, string[] arguments, IEnumerable<Type> commandList, Func<TCommand, TResult> matchHandler, Func<string, TResult> errorHandler)
         {
             foreach (Type type in commandList) parser.Add(CommandInfo.ConvertFrom(type));
 
@@ -51,13 +51,13 @@ namespace Acklann.NShellit.Extensions
             {
                 if (command.IsInternal) return default(TResult);
                 else if (typeof(TCommand).IsAssignableFrom(command.Target) == false) throw new ArgumentException($"{command.Target.Name} is not of type {typeof(TCommand).Name}.", nameof(commandList));
-                else return onSuccess((TCommand)command.ToObject());
+                else return matchHandler((TCommand)command.ToObject());
             }
-            else if (onParsingError != null) return onParsingError(error);
+            else if (errorHandler != null) return errorHandler(error);
             else return default(TResult);
         }
 
-        internal static void Map(this Parser parser, string[] args, Action<string> onParsingError, ValueTuple<Type, Action<object>>[] commandList)
+        internal static void Map(this Parser parser, string[] args, Action<string> errorHandler, ValueTuple<Type, Action<object>>[] commandList)
         {
             var map = new Dictionary<string, Action<object>>(commandList.Length);
             foreach ((Type Type, Action<object> Callback) command in commandList)
@@ -70,10 +70,10 @@ namespace Acklann.NShellit.Extensions
             {
                 if (map.ContainsKey(result.Target.Name ?? string.Empty)) map[result.Target.Name](result.ToObject());
             }
-            else onParsingError?.Invoke(error);
+            else errorHandler?.Invoke(error);
         }
 
-        internal static TResult Map<TResult>(this Parser parser, string[] args, Func<string, TResult> onParsingError, ValueTuple<Type, Func<object, TResult>>[] commandList)
+        internal static TResult Map<TResult>(this Parser parser, string[] args, Func<string, TResult> errorHandler, ValueTuple<Type, Func<object, TResult>>[] commandList)
         {
             var map = new Dictionary<string, Func<object, TResult>>(commandList.Length);
             foreach ((Type Type, Func<object, TResult> Callback) command in commandList)
@@ -88,7 +88,7 @@ namespace Acklann.NShellit.Extensions
                 if (map.ContainsKey(key)) return map[key](result.ToObject());
                 else return default(TResult);
             }
-            else if (onParsingError != null) return onParsingError(error);
+            else if (errorHandler != null) return errorHandler(error);
             else return default(TResult);
         }
     }

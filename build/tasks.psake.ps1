@@ -120,7 +120,7 @@ Task "Tag-Release" -alias "tag" -description "This task tags the last commit wit
     $version = Get-NcrementManifest $ManifestJson | Convert-NcrementVersionNumberToString;
 	Write-Header "git";
     Exec { &git tag v$version | Out-Null; }
-    Exec { &git push --tags | Out-Null; }
+    Exec { &git push origin --tags | Out-Null; }
 }
 
 #endregion

@@ -15,12 +15,12 @@ namespace Acklann.NShellit.Extensions
 	{	
 		<# 
 		WriteMethods(n, "TResult", "The result of the selected delegate/command.",
-		error: "Func<string, TResult> onParsingError",
+		error: "Func<string, TResult> errorHandler",
 		parameter: "Func<T{0}, TResult> cb{0}",
 
 		arg: "(typeof(T{0}), (o) => cb{0}((T{0})o))",
 		methodCall: @"
-return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 {{
 	{0}
 }});"
@@ -29,11 +29,11 @@ return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, 
 		
 		<#
 		WriteMethods(n, "void", "",
-		error: "Action<string> onParsingError",
+		error: "Action<string> errorHandler",
 		parameter: "Action<T{0}> cb{0}",
 		arg: "(typeof(T{0}), (o) => cb{0}((T{0})o))",
 		methodCall: @"
-Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 {{
 	{0}
 }});
@@ -73,7 +73,7 @@ void WriteMethods(int n, string returnType, string returnTypeDoc, string error, 
 		WriteLine("/// <param name=\"parser\">The parser.</param>");
 		WriteLine("/// <param name=\"arguments\">The argument array.</param>");
 		WriteLine(paramDoc);
-		if (!string.IsNullOrEmpty(error)) WriteLine($"/// <param name=\"onParsingError\">The delegate to invoke when a parsing error occurs.</param>");
+		if (!string.IsNullOrEmpty(error)) WriteLine($"/// <param name=\"errorHandler\">The delegate to invoke when a parsing error occurs.</param>");
 		if (!string.IsNullOrEmpty(delegateReturnType)) WriteLine($"/// <returns>{returnTypeDoc}</returns>");
 
 		Write($"public static {returnType} Map<{generics}>(this Parser parser, string[] arguments, {param}{error}".Trim(' ', ','));

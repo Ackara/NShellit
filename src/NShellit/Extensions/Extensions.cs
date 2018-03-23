@@ -10,11 +10,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="parser">The parser.</param>
 		/// <param name="arguments">The argument array.</param>
 		/// <param name="cb1">The delegate to invoke when command of type <typeparamref name="T1"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o))
 			});
@@ -28,11 +28,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="arguments">The argument array.</param>
 		/// <param name="cb1">The delegate to invoke when command of type <typeparamref name="T1"/> is found.</param>
 		/// <param name="cb2">The delegate to invoke when command of type <typeparamref name="T2"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o))
@@ -49,11 +49,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb1">The delegate to invoke when command of type <typeparamref name="T1"/> is found.</param>
 		/// <param name="cb2">The delegate to invoke when command of type <typeparamref name="T2"/> is found.</param>
 		/// <param name="cb3">The delegate to invoke when command of type <typeparamref name="T3"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -73,11 +73,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb2">The delegate to invoke when command of type <typeparamref name="T2"/> is found.</param>
 		/// <param name="cb3">The delegate to invoke when command of type <typeparamref name="T3"/> is found.</param>
 		/// <param name="cb4">The delegate to invoke when command of type <typeparamref name="T4"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -100,11 +100,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb3">The delegate to invoke when command of type <typeparamref name="T3"/> is found.</param>
 		/// <param name="cb4">The delegate to invoke when command of type <typeparamref name="T4"/> is found.</param>
 		/// <param name="cb5">The delegate to invoke when command of type <typeparamref name="T5"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -130,11 +130,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb4">The delegate to invoke when command of type <typeparamref name="T4"/> is found.</param>
 		/// <param name="cb5">The delegate to invoke when command of type <typeparamref name="T5"/> is found.</param>
 		/// <param name="cb6">The delegate to invoke when command of type <typeparamref name="T6"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -163,11 +163,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb5">The delegate to invoke when command of type <typeparamref name="T5"/> is found.</param>
 		/// <param name="cb6">The delegate to invoke when command of type <typeparamref name="T6"/> is found.</param>
 		/// <param name="cb7">The delegate to invoke when command of type <typeparamref name="T7"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -199,11 +199,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb6">The delegate to invoke when command of type <typeparamref name="T6"/> is found.</param>
 		/// <param name="cb7">The delegate to invoke when command of type <typeparamref name="T7"/> is found.</param>
 		/// <param name="cb8">The delegate to invoke when command of type <typeparamref name="T8"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -238,11 +238,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb7">The delegate to invoke when command of type <typeparamref name="T7"/> is found.</param>
 		/// <param name="cb8">The delegate to invoke when command of type <typeparamref name="T8"/> is found.</param>
 		/// <param name="cb9">The delegate to invoke when command of type <typeparamref name="T9"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -280,11 +280,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb8">The delegate to invoke when command of type <typeparamref name="T8"/> is found.</param>
 		/// <param name="cb9">The delegate to invoke when command of type <typeparamref name="T9"/> is found.</param>
 		/// <param name="cb10">The delegate to invoke when command of type <typeparamref name="T10"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -325,11 +325,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb9">The delegate to invoke when command of type <typeparamref name="T9"/> is found.</param>
 		/// <param name="cb10">The delegate to invoke when command of type <typeparamref name="T10"/> is found.</param>
 		/// <param name="cb11">The delegate to invoke when command of type <typeparamref name="T11"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -373,11 +373,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb10">The delegate to invoke when command of type <typeparamref name="T10"/> is found.</param>
 		/// <param name="cb11">The delegate to invoke when command of type <typeparamref name="T11"/> is found.</param>
 		/// <param name="cb12">The delegate to invoke when command of type <typeparamref name="T12"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -424,11 +424,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb11">The delegate to invoke when command of type <typeparamref name="T11"/> is found.</param>
 		/// <param name="cb12">The delegate to invoke when command of type <typeparamref name="T12"/> is found.</param>
 		/// <param name="cb13">The delegate to invoke when command of type <typeparamref name="T13"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -478,11 +478,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb12">The delegate to invoke when command of type <typeparamref name="T12"/> is found.</param>
 		/// <param name="cb13">The delegate to invoke when command of type <typeparamref name="T13"/> is found.</param>
 		/// <param name="cb14">The delegate to invoke when command of type <typeparamref name="T14"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<T14, TResult> cb14, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<T14, TResult> cb14, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -535,11 +535,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb13">The delegate to invoke when command of type <typeparamref name="T13"/> is found.</param>
 		/// <param name="cb14">The delegate to invoke when command of type <typeparamref name="T14"/> is found.</param>
 		/// <param name="cb15">The delegate to invoke when command of type <typeparamref name="T15"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<T14, TResult> cb14, Func<T15, TResult> cb15, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<T14, TResult> cb14, Func<T15, TResult> cb15, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -595,11 +595,11 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb14">The delegate to invoke when command of type <typeparamref name="T14"/> is found.</param>
 		/// <param name="cb15">The delegate to invoke when command of type <typeparamref name="T15"/> is found.</param>
 		/// <param name="cb16">The delegate to invoke when command of type <typeparamref name="T16"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
 		/// <returns>The result of the selected delegate/command.</returns>
-		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<T14, TResult> cb14, Func<T15, TResult> cb15, Func<T16, TResult> cb16, Func<string, TResult> onParsingError)
+		public static TResult Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(this Parser parser, string[] arguments, Func<T1, TResult> cb1, Func<T2, TResult> cb2, Func<T3, TResult> cb3, Func<T4, TResult> cb4, Func<T5, TResult> cb5, Func<T6, TResult> cb6, Func<T7, TResult> cb7, Func<T8, TResult> cb8, Func<T9, TResult> cb9, Func<T10, TResult> cb10, Func<T11, TResult> cb11, Func<T12, TResult> cb12, Func<T13, TResult> cb13, Func<T14, TResult> cb14, Func<T15, TResult> cb15, Func<T16, TResult> cb16, Func<string, TResult> errorHandler)
 		{
-			return Map(parser, arguments, onParsingError, new ValueTuple<Type, Func<object, TResult>>[]
+			return Map(parser, arguments, errorHandler, new ValueTuple<Type, Func<object, TResult>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -626,10 +626,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="parser">The parser.</param>
 		/// <param name="arguments">The argument array.</param>
 		/// <param name="cb1">The delegate to invoke when command of type <typeparamref name="T1"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1>(this Parser parser, string[] arguments, Action<T1> cb1, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1>(this Parser parser, string[] arguments, Action<T1> cb1, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o))
 			});
@@ -642,10 +642,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="arguments">The argument array.</param>
 		/// <param name="cb1">The delegate to invoke when command of type <typeparamref name="T1"/> is found.</param>
 		/// <param name="cb2">The delegate to invoke when command of type <typeparamref name="T2"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o))
@@ -661,10 +661,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb1">The delegate to invoke when command of type <typeparamref name="T1"/> is found.</param>
 		/// <param name="cb2">The delegate to invoke when command of type <typeparamref name="T2"/> is found.</param>
 		/// <param name="cb3">The delegate to invoke when command of type <typeparamref name="T3"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -683,10 +683,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb2">The delegate to invoke when command of type <typeparamref name="T2"/> is found.</param>
 		/// <param name="cb3">The delegate to invoke when command of type <typeparamref name="T3"/> is found.</param>
 		/// <param name="cb4">The delegate to invoke when command of type <typeparamref name="T4"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -708,10 +708,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb3">The delegate to invoke when command of type <typeparamref name="T3"/> is found.</param>
 		/// <param name="cb4">The delegate to invoke when command of type <typeparamref name="T4"/> is found.</param>
 		/// <param name="cb5">The delegate to invoke when command of type <typeparamref name="T5"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -736,10 +736,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb4">The delegate to invoke when command of type <typeparamref name="T4"/> is found.</param>
 		/// <param name="cb5">The delegate to invoke when command of type <typeparamref name="T5"/> is found.</param>
 		/// <param name="cb6">The delegate to invoke when command of type <typeparamref name="T6"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -767,10 +767,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb5">The delegate to invoke when command of type <typeparamref name="T5"/> is found.</param>
 		/// <param name="cb6">The delegate to invoke when command of type <typeparamref name="T6"/> is found.</param>
 		/// <param name="cb7">The delegate to invoke when command of type <typeparamref name="T7"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -801,10 +801,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb6">The delegate to invoke when command of type <typeparamref name="T6"/> is found.</param>
 		/// <param name="cb7">The delegate to invoke when command of type <typeparamref name="T7"/> is found.</param>
 		/// <param name="cb8">The delegate to invoke when command of type <typeparamref name="T8"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -838,10 +838,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb7">The delegate to invoke when command of type <typeparamref name="T7"/> is found.</param>
 		/// <param name="cb8">The delegate to invoke when command of type <typeparamref name="T8"/> is found.</param>
 		/// <param name="cb9">The delegate to invoke when command of type <typeparamref name="T9"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -878,10 +878,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb8">The delegate to invoke when command of type <typeparamref name="T8"/> is found.</param>
 		/// <param name="cb9">The delegate to invoke when command of type <typeparamref name="T9"/> is found.</param>
 		/// <param name="cb10">The delegate to invoke when command of type <typeparamref name="T10"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -921,10 +921,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb9">The delegate to invoke when command of type <typeparamref name="T9"/> is found.</param>
 		/// <param name="cb10">The delegate to invoke when command of type <typeparamref name="T10"/> is found.</param>
 		/// <param name="cb11">The delegate to invoke when command of type <typeparamref name="T11"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -967,10 +967,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb10">The delegate to invoke when command of type <typeparamref name="T10"/> is found.</param>
 		/// <param name="cb11">The delegate to invoke when command of type <typeparamref name="T11"/> is found.</param>
 		/// <param name="cb12">The delegate to invoke when command of type <typeparamref name="T12"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -1016,10 +1016,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb11">The delegate to invoke when command of type <typeparamref name="T11"/> is found.</param>
 		/// <param name="cb12">The delegate to invoke when command of type <typeparamref name="T12"/> is found.</param>
 		/// <param name="cb13">The delegate to invoke when command of type <typeparamref name="T13"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -1068,10 +1068,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb12">The delegate to invoke when command of type <typeparamref name="T12"/> is found.</param>
 		/// <param name="cb13">The delegate to invoke when command of type <typeparamref name="T13"/> is found.</param>
 		/// <param name="cb14">The delegate to invoke when command of type <typeparamref name="T14"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<T14> cb14, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<T14> cb14, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -1123,10 +1123,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb13">The delegate to invoke when command of type <typeparamref name="T13"/> is found.</param>
 		/// <param name="cb14">The delegate to invoke when command of type <typeparamref name="T14"/> is found.</param>
 		/// <param name="cb15">The delegate to invoke when command of type <typeparamref name="T15"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<T14> cb14, Action<T15> cb15, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<T14> cb14, Action<T15> cb15, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
@@ -1181,10 +1181,10 @@ namespace Acklann.NShellit.Extensions
 		/// <param name="cb14">The delegate to invoke when command of type <typeparamref name="T14"/> is found.</param>
 		/// <param name="cb15">The delegate to invoke when command of type <typeparamref name="T15"/> is found.</param>
 		/// <param name="cb16">The delegate to invoke when command of type <typeparamref name="T16"/> is found.</param>
-		/// <param name="onParsingError">The delegate to invoke when a parsing error occurs.</param>
-		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<T14> cb14, Action<T15> cb15, Action<T16> cb16, Action<string> onParsingError)
+		/// <param name="errorHandler">The delegate to invoke when a parsing error occurs.</param>
+		public static void Map<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(this Parser parser, string[] arguments, Action<T1> cb1, Action<T2> cb2, Action<T3> cb3, Action<T4> cb4, Action<T5> cb5, Action<T6> cb6, Action<T7> cb7, Action<T8> cb8, Action<T9> cb9, Action<T10> cb10, Action<T11> cb11, Action<T12> cb12, Action<T13> cb13, Action<T14> cb14, Action<T15> cb15, Action<T16> cb16, Action<string> errorHandler)
 		{
-			Map(parser, arguments, onParsingError, new ValueTuple<Type, Action<object>>[]
+			Map(parser, arguments, errorHandler, new ValueTuple<Type, Action<object>>[]
 			{
 				(typeof(T1), (o) => cb1((T1)o)),
 				(typeof(T2), (o) => cb2((T2)o)),
