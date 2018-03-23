@@ -307,13 +307,13 @@ function {0}({2})
             return _content.ToString();
         }
 
-        #region Private Fields
+        #region Private Members
 
         private StringBuilder _content;
         private string _packageDirectory;
 
         private string GetCmdlet(CommandInfo c) => string.IsNullOrEmpty(c.Cmdlet) ? $"Invoke-{System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(c.Name)}" : c.Cmdlet;
 
-        #endregion Private Fields
+        #endregion Private Members
     }
 }
