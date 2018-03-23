@@ -2,7 +2,7 @@
   "profiles": {
     "Poshley.IntegrationTest": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": "-help"
     }
   }
 }

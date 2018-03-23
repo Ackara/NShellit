@@ -28,7 +28,11 @@ namespace Acklann.NShellit.Extensions
                 else if (typeof(TCommand).IsAssignableFrom(command.Target) == false) throw new ArgumentException($"{command.Target.Name} is not of type {typeof(TCommand).Name}.", nameof(commandList));
                 else matchHandler((TCommand)command.ToObject());
             }
-            else errorHandler?.Invoke(error);
+            else
+            {
+                parser.ShowHelpMenu(command?.Name, error);
+                errorHandler?.Invoke(error);
+            }
         }
 
         /// <summary>
@@ -53,8 +57,11 @@ namespace Acklann.NShellit.Extensions
                 else if (typeof(TCommand).IsAssignableFrom(command.Target) == false) throw new ArgumentException($"{command.Target.Name} is not of type {typeof(TCommand).Name}.", nameof(commandList));
                 else return matchHandler((TCommand)command.ToObject());
             }
-            else if (errorHandler != null) return errorHandler(error);
-            else return default(TResult);
+            else
+            {
+                parser.ShowHelpMenu(command?.Name, error);
+                return (errorHandler == null ? default(TResult) : errorHandler(error));
+            }
         }
 
         internal static void Map(this Parser parser, string[] args, Action<string> errorHandler, ValueTuple<Type, Action<object>>[] commandList)
@@ -70,7 +77,11 @@ namespace Acklann.NShellit.Extensions
             {
                 if (map.ContainsKey(result.Target.Name ?? string.Empty)) map[result.Target.Name](result.ToObject());
             }
-            else errorHandler?.Invoke(error);
+            else
+            {
+                parser.ShowHelpMenu(result?.Name, error);
+                errorHandler?.Invoke(error);
+            }
         }
 
         internal static TResult Map<TResult>(this Parser parser, string[] args, Func<string, TResult> errorHandler, ValueTuple<Type, Func<object, TResult>>[] commandList)
@@ -88,8 +99,11 @@ namespace Acklann.NShellit.Extensions
                 if (map.ContainsKey(key)) return map[key](result.ToObject());
                 else return default(TResult);
             }
-            else if (errorHandler != null) return errorHandler(error);
-            else return default(TResult);
+            else
+            {
+                parser.ShowHelpMenu(result?.Name, error);
+                return (errorHandler == null ? default(TResult) : errorHandler(error));
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Acklann.NShellit
 #if DEBUG
             Console.WriteLine($"exit-code: {exitCode}");
             Console.WriteLine("press any key to exit ...");
-            //Console.ReadKey();
+            Console.ReadKey();
 #endif
             return exitCode;
         }

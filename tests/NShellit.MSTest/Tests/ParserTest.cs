@@ -177,7 +177,7 @@ namespace Acklann.NShellit.Tests
 
             var mockHelpBuilder = Mock.Create<IHelpBuilder>();
             mockHelpBuilder.Arrange(x => x.PrintHelp(Arg.AnyString, Arg.IsAny<CommandInfo[]>()))
-                .Occurs(3);
+                .Occurs(4);
 
             mockHelpBuilder.Arrange(x => x.PrintVersion())
                 .OccursOnce();

@@ -175,6 +175,19 @@ namespace Acklann.NShellit
                 }
         }
 
+        /// <summary>
+        /// Shows the help menu.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="error">The error.</param>
+        public void ShowHelpMenu(string command = null, string error = "")
+        {
+            command = command?.ToLowerInvariant();
+            if (command == null) _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
+            else if (_commandList.ContainsKey(command)) _helpBuilder.PrintHelp(error, _commandList[command]);
+            else _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
+        }
+
         /* --- HELPER METHODS --- */
 
         private LinkedList<Token> Tokenize(string[] args)
@@ -319,14 +332,6 @@ namespace Acklann.NShellit
                     (command as PackageCommand).GeneratePackages(_commandList.Values);
                     break;
             }
-        }
-
-        private void ShowHelpMenu(string command = null, string error = "")
-        {
-            command = command?.ToLowerInvariant();
-            if (command == null) _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
-            else if (_commandList.ContainsKey(command)) _helpBuilder.PrintHelp(error, _commandList[command]);
-            else _helpBuilder.PrintHelp(error, _commandList.Values.ToArray());
         }
 
         #region Non-Public Fields
