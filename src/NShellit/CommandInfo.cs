@@ -173,6 +173,7 @@ namespace Acklann.NShellit
                 {
                     case CommandAttribute info:
                         command.Name = info.Name;
+                        command.Cmdlet = info.Cmdlet;
                         command.Description = info.Summary;
                         break;
 
